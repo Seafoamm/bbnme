@@ -63,3 +63,13 @@ To ensure effective collaboration and high-quality output:
 3.  **Self-Verification:** Always do self-verification of your chain of thought and planning. Ensure it is truthful, accurate, and accomplishes the true end goal.
 4.  **Clarify Low Confidence:** Always clarify with the user if the confidence in your answer is low. Also, annotate options with your confidence.
 5.  **Testing and Verification:** Always think about how to test and verify your change after you make it.
+
+## Design System Adherence and Aesthetic Guidelines
+
+To ensure a cohesive and high-quality user experience, all UI development must strictly adhere to our internal design system and aesthetic principles.
+
+**Principles:**
+*   **Component-First Approach:** Prefer creating and using Svelte components over raw HTML elements. Every distinct UI element or pattern should ideally be encapsulated within a component.
+*   **Design Tokens:** Define and utilize design tokens for typography, color, spacing, and other styling attributes. These should be managed centrally (e.g., in `variables.css`) to ensure consistency and ease of modification. Create new tokens as needed.
+*   **Cohesive Styling:** All components and styles must contribute to a unified aesthetic. The keywords guiding our design are: **"clean girl aesthetic, cozy, cute, comfy"**.
+*   **Reusability:** Design components to be reusable across the application, reducing redundancy and promoting maintainability.
