@@ -15,7 +15,7 @@
         <span>{$user.displayName}</span>
       </div>
       {#if !isAuthorizedToWrite}
-        <span class="not-authorized-message">Not authorized to write</span>
+        <span class="not-authorized-message">Unauthorized user</span>
       {/if}
     </div>
     <Button label="Sign out" onClick={() => signOut(auth)} />

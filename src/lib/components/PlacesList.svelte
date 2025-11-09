@@ -52,10 +52,7 @@
           onCancel={handleEditCancel}
         />
       {:else}
-        <h3>{place.name}</h3>
-        {#if place.website}
-          <a href={place.website} target="_blank" rel="noreferrer">Website</a>
-        {/if}
+        <h3><b>{place.name}</b></h3>
         {#if place.image}
           <a href={place.website} target="_blank" rel="noreferrer">
             <img src={place.image} alt={place.name} />
