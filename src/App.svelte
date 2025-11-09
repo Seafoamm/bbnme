@@ -35,7 +35,7 @@
 
 <main>
   {#if $user}
-    <Navbar />
+    <Navbar {isAuthorizedToWrite} />
     <div class="container">
       <h1>Clean Girl Travel Wishlist</h1>
       {#if authCheckComplete}
@@ -43,17 +43,13 @@
           <Card>
             <AddPlaceForm />
           </Card>
-        {:else}
-          <Card>
-            <p>You are logged in, but not authorized to add new places.</p>
-          </Card>
         {/if}
       {:else}
         <Card>
           <p>Checking authorization...</p>
         </Card>
       {/if}
-      <PlacesList />
+      <PlacesList {isAuthorizedToWrite} />
     </div>
   {:else}
     <Login />
