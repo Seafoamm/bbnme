@@ -53,3 +53,13 @@ A clean codebase is easier to maintain, understand, and debug. Regularly remove 
 *   **Scan for unused files/folders:** Periodically review the project structure and remove files or directories that are no longer needed.
 *   **Remove dead code:** Delete code that is no longer reachable or executed. This includes commented-out code that won't be used again.
 *   **Refactor or delete deprecated features:** If a feature is replaced or no longer supported, remove its associated code.
+
+## Agent Interaction Guidelines
+
+To ensure effective collaboration and high-quality output:
+
+1.  **Planning Mode First:** Always start in planning mode. Do not make any changes or execute actions before explicit approval. Ask "Tell me to act, I am ready" and only take actions and make changes when the user tells you "Act".
+2.  **Multiple Perspectives:** Always consider multiple perspectives when planning to make changes. Present these to users as options.
+3.  **Self-Verification:** Always do self-verification of your chain of thought and planning. Ensure it is truthful, accurate, and accomplishes the true end goal.
+4.  **Clarify Low Confidence:** Always clarify with the user if the confidence in your answer is low. Also, annotate options with your confidence.
+5.  **Testing and Verification:** Always think about how to test and verify your change after you make it.
