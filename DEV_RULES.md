@@ -33,3 +33,23 @@ Always aim for the simplest possible solution that meets the requirements. Compl
 *   **Refactor regularly:** Improve code structure and remove unnecessary complexity.
 *   **Question assumptions:** Challenge existing solutions and look for simpler alternatives.
 *   **Prioritize clarity:** Code should be easy to understand for anyone reading it.
+
+## Web Security Best Practices
+
+Security is paramount, especially for web applications. Always consider potential vulnerabilities and implement best practices to protect user data and application integrity.
+
+**Practices:**
+*   **Never expose sensitive data client-side:** Avoid hardcoding API keys, secrets, or personal identifiable information (PII) directly in client-side code or public source repositories. Use environment variables, server-side secrets (like Firebase Secret Manager), or secure backend calls.
+*   **Validate all input:** Always validate and sanitize user input on both the client and server sides to prevent injection attacks (e.g., XSS, SQL Injection).
+*   **Implement proper authentication and authorization:** Ensure users are who they say they are (authentication) and that they only have access to resources they are permitted to use (authorization), as demonstrated with Firebase Authentication and Firestore Security Rules.
+*   **Use HTTPS:** Always serve your application over HTTPS to encrypt data in transit.
+*   **Keep dependencies updated:** Regularly update libraries and frameworks to patch known security vulnerabilities.
+
+## Codebase Hygiene (Unused Files & Dead Code)
+
+A clean codebase is easier to maintain, understand, and debug. Regularly remove unnecessary elements.
+
+**Practices:**
+*   **Scan for unused files/folders:** Periodically review the project structure and remove files or directories that are no longer needed.
+*   **Remove dead code:** Delete code that is no longer reachable or executed. This includes commented-out code that won't be used again.
+*   **Refactor or delete deprecated features:** If a feature is replaced or no longer supported, remove its associated code.
