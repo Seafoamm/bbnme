@@ -1,4 +1,7 @@
 <script>
+  import { user } from './lib/stores/userStore.js';
+  import Login from './lib/components/Login.svelte';
+  import Navbar from './lib/components/Navbar.svelte';
   import AddPlaceForm from './lib/components/AddPlaceForm.svelte';
   import PlacesList from './lib/components/PlacesList.svelte';
   import Card from './lib/components/Card.svelte';
@@ -6,14 +9,18 @@
 </script>
 
 <main>
-  <h1>Clean Girl Travel Wishlist</h1>
-
-  <Card>
-    <AddPlaceForm />
-  </Card>
-
-  <PlacesList />
-
+  {#if $user}
+    <Navbar />
+    <div class="container">
+      <h1>Clean Girl Travel Wishlist</h1>
+      <Card>
+        <AddPlaceForm />
+      </Card>
+      <PlacesList />
+    </div>
+  {:else}
+    <Login />
+  {/if}
 </main>
 
 <style>
@@ -21,9 +28,10 @@
     font-family: var(--font-family);
     background-color: var(--primary-color);
     color: var(--text-color);
+    margin: 0;
   }
 
-  main {
+  .container {
     display: flex;
     flex-direction: column;
     gap: 20px;
