@@ -1,21 +1,19 @@
 <script>
-  import Button from './lib/components/Button.svelte';
+  import AddPlaceForm from './lib/components/AddPlaceForm.svelte';
+  import PlacesList from './lib/components/PlacesList.svelte';
   import Card from './lib/components/Card.svelte';
   import './lib/styles/variables.css';
 </script>
 
 <main>
-  <h1>Clean Girl Design System</h1>
+  <h1>Clean Girl Travel Wishlist</h1>
 
   <Card>
-    <h2>Buttons</h2>
-    <Button label="Primary Button" />
+    <AddPlaceForm />
   </Card>
 
-  <Card>
-    <h2>Card Component</h2>
-    <p>This is a card component.</p>
-  </Card>
+  <PlacesList />
+
 </main>
 
 <style>
@@ -30,5 +28,7 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
   }
 </style>
