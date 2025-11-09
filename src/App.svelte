@@ -1,5 +1,5 @@
 <script>
-  import { user } from './lib/stores/userStore.js';
+  import { user, authLoading } from './lib/stores/userStore.js';
   import Login from './lib/components/Login.svelte';
   import Navbar from './lib/components/Navbar.svelte';
   import AddPlaceForm from './lib/components/AddPlaceForm.svelte';
@@ -16,7 +16,7 @@
   let authCheckComplete = false;
 
   // Reactively check authorization when user store changes
-  $: if ($user) {
+  $: if (!$authLoading && $user) { // Only run if auth is not loading and user is present
     checkAuthorization()
       .then((result) => {
         isAuthorizedToWrite = result.data.status === 'authorized';
@@ -27,14 +27,21 @@
         isAuthorizedToWrite = false;
         authCheckComplete = true;
       });
-  } else {
+  } else if (!$authLoading && !$user) { // If auth is not loading and no user, then not authorized
     isAuthorizedToWrite = false;
     authCheckComplete = true;
+  } else { // Still loading auth
+    isAuthorizedToWrite = false;
+    authCheckComplete = false;
   }
 </script>
 
 <main>
-  {#if $user}
+  {#if $authLoading}
+    <Card>
+      <p>Loading application...</p>
+    </Card>
+  {:else if $user}
     <Navbar {isAuthorizedToWrite} />
     <div class="container">
       <h1>Clean Girl Travel Wishlist</h1>
