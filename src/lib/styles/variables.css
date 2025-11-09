@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'Brilliant';
+  src: url('/fonts/brillant.otf') format('opentype');
+}
+
+:root {
+  --primary-color: #FDF8F5;
+  --secondary-color: #E8DED2;
+  --accent-color: #D4BFAA;
+  --text-color: #5D534A;
+  --background-color: #FFFFFF;
+  --font-family: 'Brilliant', sans-serif;
+  --border-radius: 15px;
+}
