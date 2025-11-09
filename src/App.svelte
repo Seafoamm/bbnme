@@ -6,6 +6,31 @@
   import PlacesList from './lib/components/PlacesList.svelte';
   import Card from './lib/components/Card.svelte';
   import './lib/styles/variables.css';
+  import { getFunctions, httpsCallable } from 'firebase/functions';
+  import { app } from './lib/firebase'; // Import app from firebase.js
+
+  const functions = getFunctions(app);
+  const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
+
+  let isAuthorizedToWrite = false;
+  let authCheckComplete = false;
+
+  // Reactively check authorization when user store changes
+  $: if ($user) {
+    checkAuthorization()
+      .then((result) => {
+        isAuthorizedToWrite = result.data.status === 'authorized';
+        authCheckComplete = true;
+      })
+      .catch((error) => {
+        console.error("Error checking authorization:", error);
+        isAuthorizedToWrite = false;
+        authCheckComplete = true;
+      });
+  } else {
+    isAuthorizedToWrite = false;
+    authCheckComplete = true;
+  }
 </script>
 
 <main>
@@ -13,9 +38,21 @@
     <Navbar />
     <div class="container">
       <h1>Clean Girl Travel Wishlist</h1>
-      <Card>
-        <AddPlaceForm />
-      </Card>
+      {#if authCheckComplete}
+        {#if isAuthorizedToWrite}
+          <Card>
+            <AddPlaceForm />
+          </Card>
+        {:else}
+          <Card>
+            <p>You are logged in, but not authorized to add new places.</p>
+          </Card>
+        {/if}
+      {:else}
+        <Card>
+          <p>Checking authorization...</p>
+        </Card>
+      {/if}
       <PlacesList />
     </div>
   {:else}
