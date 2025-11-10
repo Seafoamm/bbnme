@@ -44,7 +44,7 @@
 
 <div>
   <h2>Travel Wishlist</h2>
-  <div class="places-grid"> <!-- New grid container -->
+  <div class="places-grid">
     {#each places as place}
       <Card>
         {#if editingPlace && editingPlace.id === place.id}
@@ -56,23 +56,23 @@
         {:else}
           <div class="place-header">
             <h3><b>{place.name}</b></h3>
+            {#if isAuthorizedToWrite} <!-- This check is now here -->
+              <SeeMoreMenu
+                place={place}
+                isAuthorizedToWrite={isAuthorizedToWrite}
+                on:edit={e => editPlace(e.detail)}
+                on:delete={e => deletePlace(e.detail)}
+              />
+            {/if}
           </div>
           {#if place.image}
             <div class="image-container">
               <a href={place.website} target="_blank" rel="noreferrer" class="image-wrapper">
                 <img src={place.image} alt={place.name} />
-                {#if isAuthorizedToWrite}
-                  <SeeMoreMenu
-                    place={place}
-                    isAuthorizedToWrite={isAuthorizedToWrite}
-                    on:edit={e => editPlace(e.detail)}
-                    on:delete={e => deletePlace(e.detail)}
-                  />
-                {/if}
               </a>
             </div>
           {/if}
-        {/else}
+        {/if}
       </Card>
     {/each}
   </div>
@@ -84,7 +84,7 @@
     flex-direction: column;
     gap: var(--spacing-md);
   }
-  .places-grid { /* Styles for the grid container */
+  .places-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr); /* Default to 1 column for mobile */
     gap: var(--spacing-md);
