@@ -3,15 +3,14 @@
   import { auth } from "../firebase";
   import { user } from "../stores/userStore";
   import Button from "./Button.svelte";
-  import { createEventDispatcher, getContext } from 'svelte'; // Import getContext
+  import { createEventDispatcher, getContext } from 'svelte';
 
   export let isOpen = false;
 
   const dispatch = createEventDispatcher();
 
-  // Retrieve isAuthorizedToWrite from context
   const { get: getIsAuthorizedToWrite } = getContext('isAuthorizedToWrite');
-  $: isAuthorizedToWrite = getIsAuthorizedToWrite(); // Reactive declaration
+  $: isAuthorizedToWrite = getIsAuthorizedToWrite();
 
   function closeNav() {
     dispatch('close');
@@ -53,7 +52,7 @@
     padding-top: var(--spacing-lg);
     box-shadow: var(--box-shadow-md);
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Changed to column */
     color: var(--text-color);
   }
 
@@ -110,7 +109,9 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
-    flex-grow: 1;
+    flex-grow: 1; /* Allow nav-links to take available space */
+    overflow-y: auto; /* Make nav-links scrollable */
+    padding-bottom: var(--spacing-md); /* Add some padding at the bottom */
   }
 
   .nav-links a {
@@ -131,7 +132,7 @@
   .sidenav-footer {
     padding: var(--spacing-md) 0;
     border-top: var(--border-width) solid var(--secondary-color);
-    margin-top: var(--spacing-md);
+    margin-top: auto; /* Push to the bottom */
     text-align: center;
   }
 </style>
