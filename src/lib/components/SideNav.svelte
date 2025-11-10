@@ -4,13 +4,16 @@
   import { user } from "../stores/userStore";
   import Button from "./Button.svelte";
   import { createEventDispatcher, getContext } from 'svelte';
+  import { get } from 'svelte/store'; // Import get for initial value
 
   export let isOpen = false;
 
   const dispatch = createEventDispatcher();
 
-  const { get: getIsAuthorizedToWrite } = getContext('isAuthorizedToWrite');
-  $: isAuthorizedToWrite = getIsAuthorizedToWrite();
+  // Retrieve isAuthorizedToWrite store from context
+  const isAuthorizedToWriteStore = getContext('isAuthorizedToWrite');
+  // Use auto-subscription for reactivity
+  $: isAuthorizedToWrite = $isAuthorizedToWriteStore;
 
   function closeNav() {
     dispatch('close');
@@ -27,7 +30,7 @@
         <span class="not-authorized-message">Unauthorized user</span>
       {/if}
     </div>
-    <div class="nav-links-wrapper"> <!-- New wrapper for scrollable content -->
+    <div class="nav-links-wrapper">
       <div class="nav-links">
         <!-- Add your navigation links here -->
         <a href="/">Home</a>
@@ -87,7 +90,7 @@
     padding: var(--spacing-md) 0;
     border-bottom: var(--border-width) solid var(--secondary-color);
     margin-bottom: var(--spacing-md);
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0;
   }
 
   .user-profile img {
@@ -108,10 +111,10 @@
     color: var(--error-color);
   }
 
-  .nav-links-wrapper { /* New wrapper to manage scrolling */
+  .nav-links-wrapper {
     flex-grow: 1;
     overflow-y: auto;
-    padding-bottom: var(--spacing-md); /* Add some padding at the bottom */
+    padding-bottom: var(--spacing-md);
   }
 
   .nav-links {
@@ -140,6 +143,6 @@
     border-top: var(--border-width) solid var(--secondary-color);
     margin-top: auto;
     text-align: center;
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0;
   }
 </style>

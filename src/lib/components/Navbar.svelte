@@ -1,13 +1,15 @@
 <script>
   import HamburgerMenu from "./HamburgerMenu.svelte";
-  import { createEventDispatcher, getContext } from 'svelte'; // Import getContext
-  import { user } from "../stores/userStore"; // Import user store
+  import { createEventDispatcher, getContext } from 'svelte';
+  import { user } from "../stores/userStore";
+  import { get } from 'svelte/store'; // Import get for initial value
 
   const dispatch = createEventDispatcher();
 
-  // Retrieve isAuthorizedToWrite from context
-  const { get: getIsAuthorizedToWrite } = getContext('isAuthorizedToWrite');
-  $: isAuthorizedToWrite = getIsAuthorizedToWrite(); // Reactive declaration
+  // Retrieve isAuthorizedToWrite store from context
+  const isAuthorizedToWriteStore = getContext('isAuthorizedToWrite');
+  // Use auto-subscription for reactivity
+  $: isAuthorizedToWrite = $isAuthorizedToWriteStore;
 
   function handleToggle() {
     dispatch('toggle');

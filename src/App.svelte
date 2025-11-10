@@ -9,35 +9,45 @@
   import './lib/styles/variables.css';
   import { getFunctions, httpsCallable } from 'firebase/functions';
   import { app } from './lib/firebase';
-  // Removed onMount import as setTimeout is no longer needed
+  import { onMount, setContext } from 'svelte';
+  import { writable } from 'svelte/store'; // Import writable
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
-  // Removed MIN_LOADING_TIME constant
+  const MIN_LOADING_TIME = 1000;
 
-  let isAuthorizedToWrite = false;
+  // Change isAuthorizedToWrite to a writable store
+  const isAuthorizedToWriteStore = writable(false);
   let authCheckComplete = false;
-  // Removed minLoadTimeElapsed variable
+  let minLoadTimeElapsed = false;
+  let isSideNavOpen = false;
 
-  // Removed onMount block
+  // Provide isAuthorizedToWriteStore via context
+  setContext('isAuthorizedToWrite', isAuthorizedToWriteStore);
+
+  onMount(() => {
+    setTimeout(() => {
+      minLoadTimeElapsed = true;
+    }, MIN_LOADING_TIME);
+  });
 
   // Reactively check authorization when user store changes
   $: if (!$authLoading && $user) {
     checkAuthorization()
       .then((result) => {
-        isAuthorizedToWrite = result.data.status === 'authorized';
+        isAuthorizedToWriteStore.set(result.data.status === 'authorized'); // Set the store's value
         authCheckComplete = true;
       })
       .catch((error) => {
         console.error("Error checking authorization:", error);
-        isAuthorizedToWrite = false;
+        isAuthorizedToWriteStore.set(false); // Set the store's value
         authCheckComplete = true;
       });
   } else if (!$authLoading && !$user) {
-    isAuthorizedToWrite = false;
+    isAuthorizedToWriteStore.set(false); // Set the store's value
     authCheckComplete = true;
   } else {
-    isAuthorizedToWrite = false;
+    isAuthorizedToWriteStore.set(false); // Set the store's value
     authCheckComplete = false;
   }
 
@@ -46,8 +56,8 @@
   }
 </script>
 
-<main class:fullscreen-main={($authLoading || !authCheckComplete)}> <!-- Adjusted condition -->
-  {#if ($authLoading || !authCheckComplete)} <!-- Adjusted condition -->
+<main class:fullscreen-main={($authLoading || !authCheckComplete)}>
+  {#if ($authLoading || !authCheckComplete)}
     <div class="loading-screen">
       <img src="./assets/loading_image.png" alt="Loading..." class="loading-image" />
     </div>
@@ -56,7 +66,7 @@
     <SideNav isOpen={isSideNavOpen} on:close={toggleSideNav} />
     <div class="container">
       {#if authCheckComplete}
-        {#if isAuthorizedToWrite}
+        {#if $isAuthorizedToWriteStore} <!-- Use store's value -->
           <Card>
             <AddPlaceForm />
           </Card>
@@ -66,7 +76,7 @@
           <p>Checking authorization...</p>
         </Card>
       {/if}
-      <PlacesList {isAuthorizedToWrite} />
+      <PlacesList />
     </div>
   {:else}
     <Login />

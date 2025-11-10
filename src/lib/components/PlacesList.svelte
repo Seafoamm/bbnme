@@ -1,14 +1,16 @@
 <script>
   import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore";
-  import { onMount, getContext } from "svelte"; // Import getContext
+  import { onMount, getContext } from "svelte";
   import { db } from "../firebase";
   import Card from "./Card.svelte";
   import Button from "./Button.svelte";
   import EditPlaceForm from "./EditPlaceForm.svelte";
+  import { get } from 'svelte/store'; // Import get for initial value
 
-  // Retrieve isAuthorizedToWrite from context
-  const { get: getIsAuthorizedToWrite } = getContext('isAuthorizedToWrite');
-  $: isAuthorizedToWrite = getIsAuthorizedToWrite(); // Reactive declaration
+  // Retrieve isAuthorizedToWrite store from context
+  const isAuthorizedToWriteStore = getContext('isAuthorizedToWrite');
+  // Use auto-subscription for reactivity
+  $: isAuthorizedToWrite = $isAuthorizedToWriteStore;
 
   let places = [];
   let editingPlace = null;
