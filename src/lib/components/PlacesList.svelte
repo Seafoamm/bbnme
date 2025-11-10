@@ -11,6 +11,7 @@
 
   let places = [];
   let editingPlace = null;
+  let hoveredPlaceId = null; // State to track hovered image
 
   onMount(() => {
     const unsubscribe = onSnapshot(collection(db, "places"), (snapshot) => {
@@ -40,9 +41,17 @@
   function handleEditCancel() {
     editingPlace = null;
   }
+
+  function handleMouseEnter(id) {
+    hoveredPlaceId = id;
+  }
+
+  function handleMouseLeave() {
+    hoveredPlaceId = null;
+  }
 </script>
 
-<div class="places-list-container"> <!-- Main container for PlacesList -->
+<div class="places-list-container">
   <h2>Travel Wishlist</h2>
   <div class="places-grid">
     {#each places as place}
@@ -56,19 +65,26 @@
         {:else}
           <div class="place-header">
             <h3><b>{place.name}</b></h3>
+            {#if isAuthorizedToWrite && hoveredPlaceId === place.id} <!-- Conditionally render SeeMoreMenu -->
+              <SeeMoreMenu
+                place={place}
+                isAuthorizedToWrite={isAuthorizedToWrite}
+                on:edit={e => editPlace(e.detail)}
+                on:delete={e => deletePlace(e.detail)}
+              />
+            {/if}
           </div>
           {#if place.image}
             <div class="image-container">
-              <a href={place.website} target="_blank" rel="noreferrer" class="image-wrapper">
+              <a
+                href={place.website}
+                target="_blank"
+                rel="noreferrer"
+                class="image-wrapper"
+                on:mouseenter={() => handleMouseEnter(place.id)}
+                on:mouseleave={handleMouseLeave}
+              >
                 <img src={place.image} alt={place.name} />
-                {#if isAuthorizedToWrite}
-                  <SeeMoreMenu
-                    place={place}
-                    isAuthorizedToWrite={isAuthorizedToWrite}
-                    on:edit={e => editPlace(e.detail)}
-                    on:delete={e => deletePlace(e.detail)}
-                  />
-                {/if}
               </a>
             </div>
           {/if}
@@ -79,27 +95,26 @@
 </div>
 
 <style>
-  .places-list-container { /* New container for the entire PlacesList content */
+  .places-list-container {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
-    flex-grow: 1; /* Allow it to fill available space */
-    width: 100%;
+    flex-grow: 1;
   }
-  .places-grid { /* Styles for the grid container */
+  .places-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr); /* Default to 1 column for mobile */
     gap: var(--spacing-md);
-    margin: 5px; /* Add margin around the grid */
+    margin: 5px;
   }
 
-  @media (min-width: 768px) { /* Tablet breakpoint */
+  @media (min-width: 768px) {
     .places-grid {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  @media (min-width: 1200px) { /* Desktop breakpoint */
+  @media (min-width: 1200px) {
     .places-grid {
       grid-template-columns: repeat(5, 1fr);
     }
@@ -125,14 +140,14 @@
     font-weight: bold;
   }
   .image-container {
-    text-align: center; /* Center inline-block children */
+    text-align: center;
     justify-content: center;
     align-items: center;
   }
   .image-wrapper {
-    position: relative; /* Make the image wrapper relative for absolute positioning of menu */
-    display: inline-block; /* Ensure it only takes up the width of its content */
-    line-height: 0; /* Remove extra space below image */
+    position: relative;
+    display: inline-block;
+    line-height: 0;
     width: fit-content;
   }
   img {
