@@ -80,7 +80,6 @@
                 {#if isAuthorizedToWrite}
                   <SeeMoreMenu
                     place={place}
-                    isAuthorizedToWrite={isAuthorizedToWrite}
                     isHovered={hoveredPlaceId === place.id} <!-- Pass isHovered prop -->
                   />
                 {/if}
