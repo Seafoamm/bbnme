@@ -6,23 +6,23 @@
   import AddPlaceForm from './lib/components/AddPlaceForm.svelte';
   import PlacesList from './lib/components/PlacesList.svelte';
   import Card from './lib/components/Card.svelte';
+  import Tabs from './lib/components/Tabs.svelte'; // Re-import Tabs
+  import TabPanel from './lib/components/TabPanel.svelte'; // Re-import TabPanel
   import './lib/styles/variables.css';
   import { getFunctions, httpsCallable } from 'firebase/functions';
   import { app } from './lib/firebase';
   import { onMount, setContext } from 'svelte';
-  import { writable } from 'svelte/store'; // Import writable
+  import { writable } from 'svelte/store';
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
   const MIN_LOADING_TIME = 1000;
 
-  // Change isAuthorizedToWrite to a writable store
   const isAuthorizedToWriteStore = writable(false);
   let authCheckComplete = false;
   let minLoadTimeElapsed = false;
   let isSideNavOpen = false;
 
-  // Provide isAuthorizedToWriteStore via context
   setContext('isAuthorizedToWrite', isAuthorizedToWriteStore);
 
   onMount(() => {
@@ -31,23 +31,22 @@
     }, MIN_LOADING_TIME);
   });
 
-  // Reactively check authorization when user store changes
   $: if (!$authLoading && $user) {
     checkAuthorization()
       .then((result) => {
-        isAuthorizedToWriteStore.set(result.data.status === 'authorized'); // Set the store's value
+        isAuthorizedToWriteStore.set(result.data.status === 'authorized');
         authCheckComplete = true;
       })
       .catch((error) => {
         console.error("Error checking authorization:", error);
-        isAuthorizedToWriteStore.set(false); // Set the store's value
+        isAuthorizedToWriteStore.set(false);
         authCheckComplete = true;
       });
   } else if (!$authLoading && !$user) {
-    isAuthorizedToWriteStore.set(false); // Set the store's value
+    isAuthorizedToWriteStore.set(false);
     authCheckComplete = true;
   } else {
-    isAuthorizedToWriteStore.set(false); // Set the store's value
+    isAuthorizedToWriteStore.set(false);
     authCheckComplete = false;
   }
 
@@ -65,18 +64,18 @@
     <Navbar on:toggle={toggleSideNav} />
     <SideNav isOpen={isSideNavOpen} on:close={toggleSideNav} />
     <div class="container">
-      {#if authCheckComplete}
-        {#if $isAuthorizedToWriteStore} <!-- Use store's value -->
-          <Card>
-            <AddPlaceForm />
-          </Card>
+      <Tabs>
+        {#if authCheckComplete && $isAuthorizedToWriteStore}
+          <TabPanel title="Add Place">
+            <Card>
+              <AddPlaceForm />
+            </Card>
+          </TabPanel>
         {/if}
-      {:else}
-        <Card>
-          <p>Checking authorization...</p>
-        </Card>
-      {/if}
-      <PlacesList />
+        <TabPanel title="Travel Wishlist">
+          <PlacesList />
+        </TabPanel>
+      </Tabs>
     </div>
   {:else}
     <Login />
@@ -89,7 +88,7 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Prevent scrollbars during loading */
+    /* Removed overflow: hidden; */
   }
 
   :global(body) {
