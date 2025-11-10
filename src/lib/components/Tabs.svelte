@@ -1,20 +1,22 @@
 <script>
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
-  import { fade } from 'svelte/transition'; // Import fade transition
+  import IconButton from './IconButton.svelte'; // Import IconButton
 
-  export let activeTab = 0; // 0-indexed active tab, 1 for "Travel Wishlist"
+  export let activeTab = 1; // 0-indexed active tab, 1 for "Travel Wishlist"
 
   const activeTabStore = writable(activeTab);
   setContext('activeTab', activeTabStore);
 
-  let tabs = [];
-  let tabTitles = [];
+  let tabs = []; // Stores { title, iconSrc, iconAltText } objects
+  let tabTitles = []; // Stores just titles for display in headers
 
-  function registerTab(title) {
-    tabs = [...tabs, title];
-    tabTitles = [...tabTitles, title];
-    return tabs.length - 1;
+  // This function will be called by TabPanel children to register themselves
+  function registerTab(title, iconSrc, iconAltText) {
+    const tabInfo = { title, iconSrc, iconAltText };
+    tabs = [...tabs, tabInfo];
+    tabTitles = [...tabTitles, title]; // Keep original title for fallback
+    return tabs.length - 1; // Return the index of the registered tab
   }
 
   setContext('registerTab', registerTab);
@@ -27,17 +29,21 @@
 
 <div class="tabs-container">
   <div class="tab-headers">
-    {#each tabTitles as title, i}
+    {#each tabs as tab, i}
       <button
         class="tab-header"
         class:active={activeTab === i}
         on:click={() => selectTab(i)}
       >
-        {title}
+        {#if tab.iconSrc}
+          <IconButton iconSrc={tab.iconSrc} altText={tab.iconAltText} size="sm" isInteractive={false} hoverEffect={false} />
+        {:else}
+          {tab.title}
+        {/if}
       </button>
     {/each}
   </div>
-  <div class="tab-content-wrapper"> <!-- Wrapper for absolute positioning -->
+  <div class="tab-content-wrapper">
     <slot />
   </div>
 </div>
@@ -68,6 +74,9 @@
     border-top-right-radius: var(--border-radius);
     transition: var(--transition-ease);
     margin-right: var(--spacing-xs);
+    display: flex; /* For centering icon */
+    align-items: center;
+    justify-content: center;
   }
 
   .tab-header:hover:not(.active) {
@@ -83,7 +92,7 @@
   }
 
   .tab-content-wrapper {
-    position: relative; /* Establish positioning context for absolute children */
+    position: relative;
     min-height: 200px; /* Prevent collapse during transitions, adjust as needed */
   }
 

@@ -84,13 +84,13 @@
       <div class="container">
         <Tabs>
           {#if authCheckComplete && $isAuthorizedToWriteStore}
-            <TabPanel title="Add Place">
+            <TabPanel title="Add Place" iconSrc="./assets/add.png" iconAltText="Add Place">
               <Card>
                 <AddPlaceForm />
               </Card>
             </TabPanel>
           {/if}
-          <TabPanel title="Travel Wishlist">
+          <TabPanel title="Travel Wishlist" iconSrc="./assets/travel_wishlist.png" iconAltText="Travel Wishlist">
             <PlacesList />
           </TabPanel>
         </Tabs>
