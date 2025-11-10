@@ -12,7 +12,7 @@
   import './lib/styles/variables.css';
   import { getFunctions, httpsCallable } from 'firebase/functions';
   import { app } from './lib/firebase';
-  import { setContext } from 'svelte';
+  import { setContext, onMount } from 'svelte'; // Added onMount
   import { writable } from 'svelte/store';
 
   const functions = getFunctions(app);
@@ -21,36 +21,54 @@
   const isAuthorizedToWriteStore = writable(false);
   let authCheckComplete = false;
   let isSideNavOpen = false;
+  let showLoadingScreen = true; // New state to control rendering of loading screen
+  let fadeOutComplete = false; // New state to track fade out completion
 
   setContext('isAuthorizedToWrite', isAuthorizedToWriteStore);
 
-  $: if (!$authLoading && $user) {
-    checkAuthorization()
-      .then((result) => {
-        isAuthorizedToWriteStore.set(result.data.status === 'authorized');
-        authCheckComplete = true;
-      })
-      .catch((error) => {
-        console.error("Error checking authorization:", error);
-        isAuthorizedToWriteStore.set(false);
-        authCheckComplete = true;
-      });
-  } else if (!$authLoading && !$user) {
-    isAuthorizedToWriteStore.set(false);
-    authCheckComplete = true;
-  } else {
-    isAuthorizedToWriteStore.set(false);
-    authCheckComplete = false;
+  // Reactive block to determine when loading is truly finished
+  $: loadingFinished = !$authLoading && authCheckComplete;
+
+  // Trigger fade out when loading is finished
+  $: if (loadingFinished && !fadeOutComplete) {
+    // Apply fade-out class
+    // Wait for transition to complete before removing from DOM
+    setTimeout(() => {
+      showLoadingScreen = false;
+      fadeOutComplete = true;
+    }, 500); // Match this duration to the CSS transition duration
   }
 
   function toggleSideNav() {
     isSideNavOpen = !isSideNavOpen;
   }
+
+  onMount(() => {
+    // Initial check for authorization
+    $: if (!$authLoading && $user) {
+      checkAuthorization()
+        .then((result) => {
+          isAuthorizedToWriteStore.set(result.data.status === 'authorized');
+          authCheckComplete = true;
+        })
+        .catch((error) => {
+          console.error("Error checking authorization:", error);
+          isAuthorizedToWriteStore.set(false);
+          authCheckComplete = true;
+        });
+    } else if (!$authLoading && !$user) {
+      isAuthorizedToWriteStore.set(false);
+      authCheckComplete = true;
+    } else {
+      isAuthorizedToWriteStore.set(false);
+      authCheckComplete = false;
+    }
+  });
 </script>
 
-<main class:fullscreen-main={($authLoading || !authCheckComplete)}>
-  {#if ($authLoading || !authCheckComplete)}
-    <div class="loading-screen">
+<main class:fullscreen-main={showLoadingScreen}>
+  {#if showLoadingScreen}
+    <div class="loading-screen" class:fade-out={loadingFinished}>
       <IconButton iconSrc="./assets/spinner.png" altText="Loading Spinner" size="xl" isSpinning={true} isInteractive={false} />
     </div>
   {:else if $user}
@@ -131,6 +149,13 @@
     color: var(--text-color);
     font-family: var(--font-family);
     z-index: 9999;
+    opacity: 1; /* Ensure it starts fully opaque */
+    transition: opacity 0.5s ease-out; /* Fade out transition */
+  }
+
+  .loading-screen.fade-out {
+    opacity: 0;
+    pointer-events: none; /* Disable interaction after fade out */
   }
 
   .spinner-icon {
