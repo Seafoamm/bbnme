@@ -13,8 +13,9 @@
 </script>
 
 <nav>
-  <HamburgerMenu on:toggle iconSrc="./assets/hambuger_menu.png" altText="Open Menu" /> <!-- Use hambuger_menu.png -->
+  <HamburgerMenu on:toggle iconSrc="./assets/hambuger_menu.png" altText="Open Menu" />
   <div class="navbar-title">
+    <img src="/assets/icon.png" alt="App Icon" class="app-icon" />
     <h1>bb'n'me</h1>
   </div>
   <div class="user-status">
@@ -40,12 +41,20 @@
   .navbar-title {
     flex-grow: 1;
     text-align: center;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs); /* Space between icon and title */
   }
   .navbar-title h1 {
     font-size: var(--font-size-lg);
-    margin: 0;
+    margin: 0; /* Remove default margin */
     color: var(--text-color);
     font-weight: bold;
+  }
+  .app-icon {
+    height: var(--font-size-lg); /* Size icon relative to font size */
+    width: auto;
   }
   .user-status {
     width: var(--spacing-lg); /* Match hamburger button width for centering */

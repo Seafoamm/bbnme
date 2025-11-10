@@ -16,6 +16,6 @@
 <style>
   /* No specific styles needed here as IconButton handles its own styling */
   .hamburger-icon-button :global(button:hover) {
-    background-color: var(--secondary-color);
+    /* background-color: white; */
   }
 </style>
