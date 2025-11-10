@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import IconButton from './IconButton.svelte'; // Use IconButton for all icons
+  import IconButton from './IconButton.svelte';
 
   export let place; // The place object for context
   export let isAuthorizedToWrite = false; // From context
@@ -41,8 +41,8 @@
     size="md"
   />
 
-  {#if isOpen && isAuthorizedToWrite}
-    <div class="dropdown-menu">
+  {#if isAuthorizedToWrite}
+    <div class="floating-actions" class:open={isOpen}>
       <IconButton iconSrc="./assets/edit.png" altText="Edit" onClick={handleEdit} size="sm" />
       <IconButton iconSrc="./assets/delete.png" altText="Delete" onClick={handleDelete} size="sm" />
     </div>
@@ -51,40 +51,61 @@
 
 <style>
   .see-more-menu {
-    position: absolute; /* Position relative to the image wrapper */
+    position: absolute;
     top: var(--spacing-xs);
     right: var(--spacing-xs);
-    display: inline-block; /* Keep it inline-block for width calculation */
-    z-index: 5; /* Ensure it's above the image */
+    display: inline-block;
+    z-index: 5;
   }
 
-  .dropdown-menu {
+  .floating-actions {
     position: absolute;
-    top: 100%; /* Position below the button */
+    top: 100%; /* Position below the see-more button */
     right: 0;
-    background-color: var(--background-color);
-    box-shadow: var(--box-shadow-md);
-    border-radius: var(--border-radius);
-    border: var(--border-width) solid var(--secondary-color);
-    min-width: 120px;
-    z-index: 10;
     display: flex;
     flex-direction: column;
-    padding: var(--spacing-sm);
     gap: var(--spacing-xs);
+    opacity: 0;
+    transform: translateY(-10px); /* Start slightly above */
+    pointer-events: none; /* Disable interaction when hidden */
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    z-index: 10; /* Ensure it's above other content */
+    background: none; /* No background */
+    box-shadow: none; /* No shadow */
+    border: none; /* No border */
+    padding: 0;
   }
 
-  .dropdown-menu :global(.icon-button) { /* Target IconButton within dropdown */
-    width: 100%;
-    justify-content: flex-start;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    background-color: transparent;
+  .floating-actions.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto; /* Enable interaction when open */
+  }
+
+  .see-more-button {
+    background: none;
     border: none;
-    color: var(--text-color);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    transition: var(--transition-ease);
+    border-radius: var(--border-radius);
   }
 
-  .dropdown-menu :global(.icon-button:hover) {
+  .see-more-button:hover {
     background-color: var(--secondary-color);
-    color: var(--accent-color);
+  }
+
+  .see-more-button svg {
+    display: block;
+  }
+
+  .floating-actions :global(.icon-button) {
+    background: none; /* No background for individual icon buttons */
+    border: none;
+    padding: var(--spacing-xs);
+  }
+
+  .floating-actions :global(.icon-button:hover) {
+    background-color: var(--secondary-color); /* Subtle hover effect */
   }
 </style>
