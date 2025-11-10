@@ -51,7 +51,7 @@
 <main class:fullscreen-main={($authLoading || !authCheckComplete)}>
   {#if ($authLoading || !authCheckComplete)}
     <div class="loading-screen">
-      <IconButton iconSrc="./assets/spinner.png" altText="Loading Spinner" size="xl" class="spinner-icon" />
+      <IconButton iconSrc="./assets/spinner.png" altText="Loading Spinner" size="xl" isSpinning={true} isInteractive={false} />
     </div>
   {:else if $user}
     <Navbar on:toggle={toggleSideNav} />
@@ -133,14 +133,7 @@
     z-index: 9999;
   }
 
-  .spinner-icon {
-    animation: spin 1s linear infinite; /* Spinning animation */
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+  /* Removed .spinner-icon and @keyframes spin from here */
 
   .loading-image {
     width: 100vw; /* Fill viewport width */
