@@ -12,6 +12,7 @@
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
+  const MIN_LOADING_TIME = 1000;
 
   let isAuthorizedToWrite = false;
   let authCheckComplete = false;
@@ -20,7 +21,7 @@
   onMount(() => {
     setTimeout(() => {
       minLoadTimeElapsed = true;
-    }, 1000); // Ensure loading screen displays for at least 1 second
+    }, MIN_LOADING_TIME); // Ensure loading screen displays for at least 1 second
   });
 
   // Reactively check authorization when user store changes
@@ -128,12 +129,13 @@
     color: var(--text-color);
     font-family: var(--font-family);
     z-index: 9999; /* Ensure it's on top of other content */
+    background-color: var(--secondary-color);
   }
 
   .loading-image {
     width: 100vw; /* Fill viewport width */
     height: 100vh; /* Fill viewport height */
-    object-fit: cover; /* Cover the entire area, cropping if necessary */
+    object-fit: scale-down; /* Cover the entire area, cropping if necessary */
     object-position: center; /* Center the image within its content box */
   }
 </style>
