@@ -8,7 +8,7 @@
   import Card from './lib/components/Card.svelte';
   import Tabs from './lib/components/Tabs.svelte';
   import TabPanel from './lib/components/TabPanel.svelte';
-  import IconButton from './lib/components/IconButton.svelte'; // Import IconButton
+  import IconButton from './lib/components/IconButton.svelte';
   import './lib/styles/variables.css';
   import { getFunctions, httpsCallable } from 'firebase/functions';
   import { app } from './lib/firebase';
@@ -51,7 +51,7 @@
 <main class:fullscreen-main={($authLoading || !authCheckComplete)}>
   {#if ($authLoading || !authCheckComplete)}
     <div class="loading-screen">
-      <IconButton iconSrc="./assets/spinner.png" altText="Loading Spinner" size="lg" class="spinner-icon" />
+      <IconButton iconSrc="./assets/spinner.png" altText="Loading Spinner" size="xl" class="spinner-icon" />
     </div>
   {:else if $user}
     <Navbar on:toggle={toggleSideNav} />
@@ -81,7 +81,7 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Prevent scrollbars during loading */
+    /* Removed overflow: hidden; */
   }
 
   :global(body) {
@@ -134,6 +134,18 @@
   }
 
   .spinner-icon {
-    /* No specific styles needed here, IconButton handles its own sizing */
+    animation: spin 1s linear infinite; /* Spinning animation */
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .loading-image {
+    width: 100vw; /* Fill viewport width */
+    height: 100vh; /* Fill viewport height */
+    object-fit: scale-down; /* THIS SHOULD NOT BE TOUCHED WITHOUT EXPLICIT PERMISSION */
+    object-position: center; /* Center the image within its content box */
   }
 </style>
