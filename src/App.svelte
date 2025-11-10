@@ -111,8 +111,6 @@
     flex-direction: column;
     gap: var(--spacing-md);
     padding: var(--spacing-md);
-    max-width: 800px;
-    margin: 0 auto;
     flex-grow: 1; /* Allow container to grow and push footer down if needed */
   }
 

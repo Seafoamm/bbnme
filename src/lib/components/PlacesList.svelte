@@ -56,19 +56,19 @@
         {:else}
           <div class="place-header">
             <h3><b>{place.name}</b></h3>
-            {#if isAuthorizedToWrite}
-              <SeeMoreMenu
-                place={place}
-                isAuthorizedToWrite={isAuthorizedToWrite}
-                on:edit={e => editPlace(e.detail)}
-                on:delete={e => deletePlace(e.detail)}
-              />
-            {/if}
           </div>
           {#if place.image}
             <div class="image-container">
               <a href={place.website} target="_blank" rel="noreferrer" class="image-wrapper">
                 <img src={place.image} alt={place.name} />
+                {#if isAuthorizedToWrite}
+                  <SeeMoreMenu
+                    place={place}
+                    isAuthorizedToWrite={isAuthorizedToWrite}
+                    on:edit={e => editPlace(e.detail)}
+                    on:delete={e => deletePlace(e.detail)}
+                  />
+                {/if}
               </a>
             </div>
           {/if}
@@ -84,6 +84,7 @@
     flex-direction: column;
     gap: var(--spacing-md);
     flex-grow: 1; /* Allow it to fill available space */
+    width: 100%;
   }
   .places-grid { /* Styles for the grid container */
     display: grid;
