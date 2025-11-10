@@ -2,13 +2,14 @@
   import { user, authLoading } from './lib/stores/userStore.js';
   import Login from './lib/components/Login.svelte';
   import Navbar from './lib/components/Navbar.svelte';
+  import SideNav from './lib/components/SideNav.svelte';
   import AddPlaceForm from './lib/components/AddPlaceForm.svelte';
   import PlacesList from './lib/components/PlacesList.svelte';
   import Card from './lib/components/Card.svelte';
   import './lib/styles/variables.css';
   import { getFunctions, httpsCallable } from 'firebase/functions';
   import { app } from './lib/firebase';
-  import { onMount } from 'svelte';
+  import { onMount, setContext } from 'svelte'; // Import setContext
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
@@ -17,11 +18,17 @@
   let isAuthorizedToWrite = false;
   let authCheckComplete = false;
   let minLoadTimeElapsed = false;
+  let isSideNavOpen = false;
+
+  // Provide isAuthorizedToWrite via context
+  setContext('isAuthorizedToWrite', {
+    get: () => isAuthorizedToWrite,
+  });
 
   onMount(() => {
     setTimeout(() => {
       minLoadTimeElapsed = true;
-    }, MIN_LOADING_TIME); // Ensure loading screen displays for at least 1 second
+    }, MIN_LOADING_TIME);
   });
 
   // Reactively check authorization when user store changes
@@ -43,6 +50,10 @@
     isAuthorizedToWrite = false;
     authCheckComplete = false;
   }
+
+  function toggleSideNav() {
+    isSideNavOpen = !isSideNavOpen;
+  }
 </script>
 
 <main class:fullscreen-main={($authLoading || !minLoadTimeElapsed)}>
@@ -51,7 +62,8 @@
       <img src="./assets/loading_image.png" alt="Loading..." class="loading-image" />
     </div>
   {:else if $user}
-    <Navbar {isAuthorizedToWrite} />
+    <Navbar on:toggle={toggleSideNav} />
+    <SideNav isOpen={isSideNavOpen} on:close={toggleSideNav} />
     <div class="container">
       {#if authCheckComplete}
         {#if isAuthorizedToWrite}
@@ -64,7 +76,7 @@
           <p>Checking authorization...</p>
         </Card>
       {/if}
-      <PlacesList {isAuthorizedToWrite} />
+      <PlacesList />
     </div>
   {:else}
     <Login />
@@ -134,7 +146,7 @@
   .loading-image {
     width: 100vw; /* Fill viewport width */
     height: 100vh; /* Fill viewport height */
-    object-fit: scale-down; /* Ensure the entire image is visible */
+    object-fit: scale-down; /* Cover the entire area, cropping if necessary */
     object-position: center; /* Center the image within its content box */
   }
 </style>

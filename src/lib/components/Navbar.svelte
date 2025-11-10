@@ -1,8 +1,13 @@
 <script>
   import HamburgerMenu from "./HamburgerMenu.svelte";
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, getContext } from 'svelte'; // Import getContext
+  import { user } from "../stores/userStore"; // Import user store
 
   const dispatch = createEventDispatcher();
+
+  // Retrieve isAuthorizedToWrite from context
+  const { get: getIsAuthorizedToWrite } = getContext('isAuthorizedToWrite');
+  $: isAuthorizedToWrite = getIsAuthorizedToWrite(); // Reactive declaration
 
   function handleToggle() {
     dispatch('toggle');
@@ -14,7 +19,11 @@
   <div class="navbar-title">
     <h1>bb'n'me</h1>
   </div>
-  <div class="placeholder"></div> <!-- To balance the flex layout -->
+  <div class="user-status">
+    {#if $user && !isAuthorizedToWrite}
+      <span class="not-authorized-message">Unauthorized user</span>
+    {/if}
+  </div>
 </nav>
 
 <style>
@@ -39,8 +48,15 @@
     margin: 0;
     color: var(--text-color);
   }
-  .placeholder {
+  .user-status {
     width: var(--spacing-lg); /* Match hamburger button width for centering */
-    height: var(--spacing-lg);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .not-authorized-message {
+    font-size: var(--font-size-sm);
+    color: var(--error-color);
+    white-space: nowrap; /* Prevent text from wrapping */
   }
 </style>

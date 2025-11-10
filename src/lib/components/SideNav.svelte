@@ -3,12 +3,15 @@
   import { auth } from "../firebase";
   import { user } from "../stores/userStore";
   import Button from "./Button.svelte";
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, getContext } from 'svelte'; // Import getContext
 
   export let isOpen = false;
-  export let isAuthorizedToWrite;
 
   const dispatch = createEventDispatcher();
+
+  // Retrieve isAuthorizedToWrite from context
+  const { get: getIsAuthorizedToWrite } = getContext('isAuthorizedToWrite');
+  $: isAuthorizedToWrite = getIsAuthorizedToWrite(); // Reactive declaration
 
   function closeNav() {
     dispatch('close');

@@ -1,12 +1,14 @@
 <script>
   import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore";
-  import { onMount } from "svelte";
+  import { onMount, getContext } from "svelte"; // Import getContext
   import { db } from "../firebase";
   import Card from "./Card.svelte";
   import Button from "./Button.svelte";
   import EditPlaceForm from "./EditPlaceForm.svelte";
 
-  export let isAuthorizedToWrite; // Prop to receive authorization status
+  // Retrieve isAuthorizedToWrite from context
+  const { get: getIsAuthorizedToWrite } = getContext('isAuthorizedToWrite');
+  $: isAuthorizedToWrite = getIsAuthorizedToWrite(); // Reactive declaration
 
   let places = [];
   let editingPlace = null;
@@ -53,7 +55,7 @@
         />
       {:else}
         <h3><b>{place.name}</b></h3>
-        {#if place.website}
+        {#if place.image}
           <a href={place.website} target="_blank" rel="noreferrer">
             <img src={place.image} alt={place.name} />
           </a>
