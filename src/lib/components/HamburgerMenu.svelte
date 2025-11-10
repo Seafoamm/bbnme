@@ -11,8 +11,16 @@
   }
 </script>
 
-<IconButton iconSrc={iconSrc} altText={altText} onClick={toggleMenu} size="md" hoverEffect={true} />
+<IconButton iconSrc={iconSrc} altText={altText} onClick={toggleMenu} size="md" hoverEffect={true} class="hamburger-icon-button" />
 
 <style>
-  /* No specific styles needed here as IconButton handles its own styling */
+  .hamburger-icon-button :global(button) {
+    transition: var(--transition-ease); /* Ensure transition applies to transform */
+  }
+
+  .hamburger-icon-button :global(button:hover) {
+    /* Removed background-color: var(--secondary-color); */
+    /* Removed box-shadow: var(--box-shadow-hover); */
+    /* Removed transform: translateY(-5px) scale(1.1); */
+  }
 </style>
