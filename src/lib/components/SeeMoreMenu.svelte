@@ -53,7 +53,7 @@
     class="see-more-icon-button"
   />
 
-  {#if isAuthorizedToWrite}
+  {#if isOpen && isAuthorizedToWrite}
     <div class="floating-actions" class:open={isOpen}>
       <IconButton iconSrc="./assets/edit.png" altText="Edit" onClick={handleEdit} size="sm" />
       <IconButton iconSrc="./assets/delete.png" altText="Delete" onClick={handleDelete} size="sm" />
@@ -102,10 +102,10 @@
     pointer-events: auto; /* Enable interaction when open */
   }
 
-  /* Specific hover for the main See More icon button */
-  .see-more-icon-button :global(button:hover) {
+  /* Removed specific hover for the main See More icon button */
+  /* .see-more-icon-button :global(button:hover) {
     background-color: var(--secondary-color);
-  }
+  } */
 
   .floating-actions :global(.icon-button) {
     background: none; /* No background for individual icon buttons */
@@ -113,7 +113,8 @@
     padding: var(--spacing-xs);
   }
 
-  .floating-actions :global(.icon-button:hover) {
-    background-color: var(--secondary-color); /* Subtle hover effect */
-  }
+  /* Removed specific hover for floating icon buttons */
+  /* .floating-actions :global(.icon-button:hover) {
+    background-color: var(--secondary-color);
+  } */
 </style>

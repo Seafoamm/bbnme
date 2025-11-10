@@ -14,7 +14,7 @@
   import { app } from './lib/firebase';
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
-  import { fade } from 'svelte/transition'; // Import fade transition
+  import { fade } from 'svelte/transition';
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
@@ -61,14 +61,26 @@
   function toggleSideNav() {
     isSideNavOpen = !isSideNavOpen;
   }
+
+  function closeSideNav() {
+    isSideNavOpen = false;
+  }
+
+  function handleKeydown(event) {
+    if (event.key === 'Escape' && isSideNavOpen) {
+      closeSideNav();
+    }
+  }
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <main>
   <!-- Main content, always rendered but its visibility controlled -->
-  <div class="main-content-wrapper" class:visible={!showLoadingScreen}>
+  <div class="main-content-wrapper" class:visible={!showLoadingScreen} on:click={closeSideNav}>
     {#if $user}
       <Navbar on:toggle={toggleSideNav} />
-      <SideNav isOpen={isSideNavOpen} on:close={toggleSideNav} />
+      <SideNav isOpen={isSideNavOpen} on:close={closeSideNav} />
       <div class="container">
         <Tabs>
           {#if authCheckComplete && $isAuthorizedToWriteStore}

@@ -39,7 +39,12 @@
   }
 </script>
 
-<button class="icon-button" class:interactive={isInteractive} class:hover-effect={hoverEffect} on:click={handleClick}>
+<button
+  class="icon-button"
+  class:interactive={isInteractive}
+  class:hover-effect={hoverEffect}
+  on:click={handleClick}
+>
   <img src={iconSrc} alt={altText} style="width: {buttonSize}; height: {buttonSize};" class:spinning={isSpinning} />
 </button>
 
@@ -53,6 +58,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: none; /* Explicitly set transform to none by default */
   }
 
   .icon-button.interactive {
@@ -60,9 +66,7 @@
   }
 
   .icon-button.hover-effect:hover {
-    border: 2px solid var(--accent-color); /* Outline effect */
-    box-shadow: 0 0 8px var(--accent-color); /* Glow effect */
-    /* Removed transform: translateY(-5px) scale(1.1); */
+    box-shadow: 0 0 12px var(--accent-color); /* Glow effect */
   }
 
   .icon-button img {

@@ -114,12 +114,6 @@
     }
   }
 
-  @media (min-width: 1200px) {
-    .places-grid {
-      grid-template-columns: repeat(5, 1fr);
-    }
-  }
-
   .place-header {
     display: flex;
     justify-content: space-between;
