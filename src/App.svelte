@@ -90,12 +90,12 @@
     display: flex;
     flex-direction: column;
     min-height: 100%; /* Ensure main takes at least full height */
+    position: relative; /* Needed for absolute positioning of loading-screen */
   }
 
   .fullscreen-main {
     height: 100%; /* When loading, main should take full height */
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
+    /* Removed justify-content and align-items from here */
   }
 
   .container {
@@ -115,22 +115,24 @@
   }
 
   .loading-screen {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* Take full width */
-    height: 100%; /* Take full height of its parent (main) */
+    position: absolute; /* Use absolute positioning */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center precisely */
+    width: 100%; /* Take full width of parent (main) */
+    height: 100%; /* Take full height of parent (main) */
     background-color: var(--primary-color);
     color: var(--text-color);
     font-family: var(--font-family);
-    gap: var(--spacing-md);
+    display: flex; /* Keep flex for centering image within loading-screen */
+    justify-content: center;
+    align-items: center;
   }
 
   .loading-image {
-    width: 100%; /* Fill parent width */
-    height: 100%; /* Fill parent height */
-    object-fit: cover; /* Cover the entire area, cropping if necessary */
+    max-width: 150px; /* Adjusted for consistency */
+    height: auto;
+    object-fit: contain; /* Use contain to ensure entire image is visible */
     object-position: center; /* Center the image within its content box */
   }
 </style>
