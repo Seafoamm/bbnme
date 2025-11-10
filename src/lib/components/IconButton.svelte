@@ -22,9 +22,14 @@
         break;
     }
   }
+
+  function handleClick(event) {
+    event.stopPropagation(); // Stop event from bubbling up
+    onClick(event);
+  }
 </script>
 
-<button class="icon-button" on:click={onClick}>
+<button class="icon-button" on:click={handleClick}>
   <img src={iconSrc} alt={altText} style="width: {buttonSize}; height: {buttonSize};" />
 </button>
 
