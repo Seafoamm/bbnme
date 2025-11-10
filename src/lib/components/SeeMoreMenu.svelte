@@ -13,12 +13,14 @@
     isOpen = !isOpen;
   }
 
-  function handleEdit() {
+  function handleEdit(event) {
+    event.preventDefault(); // Prevent default action (e.g., anchor tag click)
     dispatch('edit', place);
     isOpen = false;
   }
 
-  function handleDelete() {
+  function handleDelete(event) {
+    event.preventDefault(); // Prevent default action (e.g., anchor tag click)
     dispatch('delete', place.id);
     isOpen = false;
   }
@@ -41,7 +43,7 @@
     size="md"
   />
 
-  {#if isAuthorizedToWrite}
+  {#if isOpen && isAuthorizedToWrite}
     <div class="floating-actions" class:open={isOpen}>
       <IconButton iconSrc="./assets/edit.png" altText="Edit" onClick={handleEdit} size="sm" />
       <IconButton iconSrc="./assets/delete.png" altText="Delete" onClick={handleDelete} size="sm" />
