@@ -6,30 +6,26 @@
   import AddPlaceForm from './lib/components/AddPlaceForm.svelte';
   import PlacesList from './lib/components/PlacesList.svelte';
   import Card from './lib/components/Card.svelte';
-  import Tabs from './lib/components/Tabs.svelte'; // Re-import Tabs
-  import TabPanel from './lib/components/TabPanel.svelte'; // Re-import TabPanel
+  import Tabs from './lib/components/Tabs.svelte';
+  import TabPanel from './lib/components/TabPanel.svelte';
   import './lib/styles/variables.css';
   import { getFunctions, httpsCallable } from 'firebase/functions';
   import { app } from './lib/firebase';
-  import { onMount, setContext } from 'svelte';
+  import { setContext } from 'svelte'; // Removed onMount
   import { writable } from 'svelte/store';
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
-  const MIN_LOADING_TIME = 1000;
+  // Removed MIN_LOADING_TIME constant
 
   const isAuthorizedToWriteStore = writable(false);
   let authCheckComplete = false;
-  let minLoadTimeElapsed = false;
+  // Removed minLoadTimeElapsed variable
   let isSideNavOpen = false;
 
   setContext('isAuthorizedToWrite', isAuthorizedToWriteStore);
 
-  onMount(() => {
-    setTimeout(() => {
-      minLoadTimeElapsed = true;
-    }, MIN_LOADING_TIME);
-  });
+  // Removed onMount block
 
   $: if (!$authLoading && $user) {
     checkAuthorization()
