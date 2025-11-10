@@ -13,7 +13,7 @@
   index = registerTab(title);
 
   // Reactive check to see if this tab is active
-  $: isActive = get(activeTabStore) === index;
+  $: isActive = $activeTabStore === index;
 </script>
 
 {#if isActive}

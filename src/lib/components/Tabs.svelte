@@ -2,7 +2,7 @@
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
 
-  export let activeTab = 0; // 0-indexed active tab
+  export let activeTab = 1; // 0-indexed active tab, 1 for "Travel Wishlist"
 
   const activeTabStore = writable(activeTab);
   setContext('activeTab', activeTabStore);
