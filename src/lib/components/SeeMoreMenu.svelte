@@ -43,8 +43,8 @@
 
   {#if isOpen && isAuthorizedToWrite}
     <div class="dropdown-menu">
-      <IconButton iconSrc="./assets/edit_icon.png" altText="Edit" onClick={handleEdit} size="sm" />
-      <IconButton iconSrc="./assets/delete_icon.png" altText="Delete" onClick={handleDelete} size="sm" />
+      <IconButton iconSrc="./assets/edit.png" altText="Edit" onClick={handleEdit} size="sm" />
+      <IconButton iconSrc="./assets/delete.png" altText="Delete" onClick={handleDelete} size="sm" />
     </div>
   {/if}
 </div>
