@@ -50,8 +50,11 @@
 
 <style>
   .see-more-menu {
-    position: relative;
-    display: inline-block;
+    position: absolute; /* Position relative to the image wrapper */
+    top: var(--spacing-xs);
+    right: var(--spacing-xs);
+    display: inline-block; /* Keep it inline-block for width calculation */
+    z-index: 5; /* Ensure it's above the image */
   }
 
   .see-more-button {

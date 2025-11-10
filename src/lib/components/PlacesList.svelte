@@ -3,7 +3,7 @@
   import { onMount, getContext } from "svelte";
   import { db } from "../firebase";
   import Card from "./Card.svelte";
-  import SeeMoreMenu from "./SeeMoreMenu.svelte"; // Import SeeMoreMenu
+  import SeeMoreMenu from "./SeeMoreMenu.svelte";
   import EditPlaceForm from "./EditPlaceForm.svelte";
 
   const isAuthorizedToWriteStore = getContext('isAuthorizedToWrite');
@@ -55,18 +55,18 @@
       {:else}
         <div class="place-header">
           <h3><b>{place.name}</b></h3>
-          {#if isAuthorizedToWrite}
-            <SeeMoreMenu
-              place={place}
-              isAuthorizedToWrite={isAuthorizedToWrite}
-              on:edit={e => editPlace(e.detail)}
-              on:delete={e => deletePlace(e.detail)}
-            />
-          {/if}
         </div>
         {#if place.image}
-          <a href={place.website} target="_blank" rel="noreferrer">
+          <a href={place.website} target="_blank" rel="noreferrer" class="image-wrapper">
             <img src={place.image} alt={place.name} />
+            {#if isAuthorizedToWrite}
+              <SeeMoreMenu
+                place={place}
+                isAuthorizedToWrite={isAuthorizedToWrite}
+                on:edit={e => editPlace(e.detail)}
+                on:delete={e => deletePlace(e.detail)}
+              />
+            {/if}
           </a>
         {/if}
       {/if}
@@ -96,6 +96,11 @@
     color: var(--text-color);
     margin-bottom: var(--spacing-xs);
     font-weight: bold;
+  }
+  .image-wrapper {
+    position: relative; /* Make the image wrapper relative for absolute positioning of menu */
+    display: block; /* Ensure it takes up space */
+    line-height: 0; /* Remove extra space below image */
   }
   img {
     max-width: 100%;
