@@ -42,7 +42,7 @@
   }
 </script>
 
-<div>
+<div class="places-list-container"> <!-- Main container for PlacesList -->
   <h2>Travel Wishlist</h2>
   <div class="places-grid">
     {#each places as place}
@@ -56,7 +56,7 @@
         {:else}
           <div class="place-header">
             <h3><b>{place.name}</b></h3>
-            {#if isAuthorizedToWrite} <!-- This check is now here -->
+            {#if isAuthorizedToWrite}
               <SeeMoreMenu
                 place={place}
                 isAuthorizedToWrite={isAuthorizedToWrite}
@@ -79,15 +79,17 @@
 </div>
 
 <style>
-  div {
+  .places-list-container { /* New container for the entire PlacesList content */
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
+    flex-grow: 1; /* Allow it to fill available space */
   }
-  .places-grid {
+  .places-grid { /* Styles for the grid container */
     display: grid;
     grid-template-columns: repeat(1, 1fr); /* Default to 1 column for mobile */
     gap: var(--spacing-md);
+    margin: 5px; /* Add margin around the grid */
   }
 
   @media (min-width: 768px) { /* Tablet breakpoint */
