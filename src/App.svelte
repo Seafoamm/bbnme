@@ -128,7 +128,8 @@
   }
 
   .loading-image {
-    max-width: 150px; /* Adjusted for consistency */
-    height: auto;
+    width: 100%; /* Fill parent width */
+    height: 100%; /* Fill parent height */
+    object-fit: cover; /* Cover the entire area, cropping if necessary */
   }
 </style>
