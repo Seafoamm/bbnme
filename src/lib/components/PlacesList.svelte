@@ -65,6 +65,14 @@
         {:else}
           <div class="place-header">
             <h3><b>{place.name}</b></h3>
+            {#if isAuthorizedToWrite}
+              <SeeMoreMenu
+                place={place}
+                isHovered={hoveredPlaceId === place.id}
+                on:edit={e => editPlace(e.detail)}
+                on:delete={e => deletePlace(e.detail)}
+              />
+            {/if}
           </div>
           {#if place.image}
             <div class="image-container">
@@ -77,12 +85,6 @@
                 on:mouseleave={handleMouseLeave}
               >
                 <img src={place.image} alt={place.name} />
-                {#if isAuthorizedToWrite}
-                  <SeeMoreMenu
-                    place={place}
-                    isHovered={hoveredPlaceId === place.id}
-                  />
-                {/if}
               </a>
             </div>
           {/if}

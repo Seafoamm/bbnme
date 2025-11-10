@@ -107,3 +107,7 @@ This project is structured to support a Svelte application with Firebase integra
         *   `styles/`: Global styles and design tokens (e.g., `variables.css`).
         *   `firebase.js`: Firebase initialization and exports for `db`, `auth`, `googleProvider`, and `app`.
     *   `assets/`: Contains static assets specific to the Svelte application (e.g., `svelte.svg`).
+
+## Svelte Specific Guidelines
+
+*   **Avoid Comments in Template Tags:** Avoid adding comments directly within Svelte template tags (`{#if ...}`, `{#each ...}`, etc.) as this can lead to syntax errors. Place comments outside these blocks or use HTML comment syntax (`<!-- comment -->`) if absolutely necessary within the template.
