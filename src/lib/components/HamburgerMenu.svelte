@@ -1,41 +1,18 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import IconButton from './IconButton.svelte'; // Import IconButton
   const dispatch = createEventDispatcher();
+
+  export let iconSrc = './assets/hambuger_menu.png'; // Default icon source
+  export let altText = 'Open Menu';
 
   function toggleMenu() {
     dispatch('toggle');
   }
 </script>
 
-<button class="hamburger-button" on:click={toggleMenu}>
-  <div class="bar"></div>
-  <div class="bar"></div>
-  <div class="bar"></div>
-</button>
+<IconButton iconSrc={iconSrc} altText={altText} onClick={toggleMenu} size="md" />
 
 <style>
-  .hamburger-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: var(--spacing-sm);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: var(--spacing-lg); /* Adjust size as needed */
-    height: var(--spacing-lg); /* Adjust size as needed */
-    transition: var(--transition-ease);
-  }
-
-  .bar {
-    width: 100%;
-    height: 3px;
-    background-color: var(--text-color);
-    border-radius: 2px;
-    transition: var(--transition-ease);
-  }
-
-  .hamburger-button:hover .bar {
-    background-color: var(--accent-color);
-  }
+  /* No specific styles needed here as IconButton handles its own styling */
 </style>

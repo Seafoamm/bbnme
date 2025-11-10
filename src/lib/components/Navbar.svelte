@@ -13,7 +13,7 @@
 </script>
 
 <nav>
-  <HamburgerMenu on:toggle /> <!-- Pass on:toggle directly -->
+  <HamburgerMenu on:toggle iconSrc="./assets/hambuger_menu.png" altText="Open Menu" /> <!-- Use hambuger_menu.png -->
   <div class="navbar-title">
     <h1>bb'n'me</h1>
   </div>

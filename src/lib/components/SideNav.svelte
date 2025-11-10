@@ -2,21 +2,24 @@
   import { signOut } from "firebase/auth";
   import { auth } from "../firebase";
   import { user } from "../stores/userStore";
-  import Button from "./Button.svelte";
+  import IconButton from "./IconButton.svelte"; // Use IconButton
   import { createEventDispatcher, getContext } from 'svelte';
-  import { get } from 'svelte/store'; // Import get for initial value
+  import { get } from 'svelte/store';
 
   export let isOpen = false;
 
   const dispatch = createEventDispatcher();
 
-  // Retrieve isAuthorizedToWrite store from context
   const isAuthorizedToWriteStore = getContext('isAuthorizedToWrite');
-  // Use auto-subscription for reactivity
   $: isAuthorizedToWrite = $isAuthorizedToWriteStore;
 
   function closeNav() {
     dispatch('close');
+  }
+
+  function handleSignOut() {
+    signOut(auth);
+    closeNav(); // Close nav after signing out
   }
 </script>
 
@@ -32,13 +35,13 @@
     </div>
     <div class="nav-links-wrapper">
       <div class="nav-links">
-        <!-- Add your navigation links here -->
-        <a href="/">Home</a>
+        <!-- Home Icon Button -->
+        <IconButton iconSrc="./assets/home.png" altText="Home" onClick={closeNav} size="md" />
         <!-- Example: <a href="/settings">Settings</a> -->
       </div>
     </div>
     <div class="sidenav-footer">
-      <Button label="Sign out" onClick={() => signOut(auth)} />
+      <IconButton iconSrc="./assets/log_out.png" altText="Sign Out" onClick={handleSignOut} size="md" />
     </div>
   {/if}
 </div>
@@ -123,19 +126,20 @@
     gap: var(--spacing-sm);
   }
 
-  .nav-links a {
+  .nav-links :global(.icon-button) { /* Target IconButton within nav-links */
+    justify-content: flex-start; /* Align icon and text to start */
     padding: var(--spacing-sm);
-    text-decoration: none;
-    font-size: var(--font-size-lg);
-    color: var(--text-color);
-    display: block;
-    transition: var(--transition-ease);
     border-radius: var(--border-radius);
   }
 
-  .nav-links a:hover {
+  .nav-links :global(.icon-button img) {
+    width: var(--font-size-lg); /* Adjust icon size */
+    height: var(--font-size-lg);
+    margin-right: var(--spacing-sm);
+  }
+
+  .nav-links :global(.icon-button:hover) {
     background-color: var(--secondary-color);
-    color: var(--accent-color);
   }
 
   .sidenav-footer {
@@ -144,5 +148,15 @@
     margin-top: auto;
     text-align: center;
     flex-shrink: 0;
+  }
+
+  .sidenav-footer :global(.icon-button) {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .sidenav-footer :global(.icon-button img) {
+    width: var(--font-size-lg);
+    height: var(--font-size-lg);
   }
 </style>
