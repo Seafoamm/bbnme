@@ -2,7 +2,6 @@
   import { user, authLoading } from './lib/stores/userStore.js';
   import Login from './lib/components/Login.svelte';
   import Navbar from './lib/components/Navbar.svelte';
-  import SideNav from './lib/components/SideNav.svelte'; // Import SideNav
   import AddPlaceForm from './lib/components/AddPlaceForm.svelte';
   import PlacesList from './lib/components/PlacesList.svelte';
   import Card from './lib/components/Card.svelte';
@@ -18,7 +17,6 @@
   let isAuthorizedToWrite = false;
   let authCheckComplete = false;
   let minLoadTimeElapsed = false;
-  let isSideNavOpen = false; // State for side navigation
 
   onMount(() => {
     setTimeout(() => {
@@ -45,10 +43,6 @@
     isAuthorizedToWrite = false;
     authCheckComplete = false;
   }
-
-  function toggleSideNav() {
-    isSideNavOpen = !isSideNavOpen;
-  }
 </script>
 
 <main class:fullscreen-main={($authLoading || !minLoadTimeElapsed)}>
@@ -57,10 +51,8 @@
       <img src="./assets/loading_image.png" alt="Loading..." class="loading-image" />
     </div>
   {:else if $user}
-    <Navbar on:toggle={toggleSideNav} />
-    <SideNav isOpen={isSideNavOpen} on:close={toggleSideNav} {isAuthorizedToWrite} />
+    <Navbar {isAuthorizedToWrite} />
     <div class="container">
-      <h1>Clean Girl Travel Wishlist</h1>
       {#if authCheckComplete}
         {#if isAuthorizedToWrite}
           <Card>
@@ -85,7 +77,7 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Prevent scrollbars during loading */
+    /* Removed overflow: hidden; */
   }
 
   :global(body) {
@@ -98,6 +90,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100%; /* Ensure main takes at least full height */
+    /* Removed position: relative; */
   }
 
   .fullscreen-main {
@@ -141,7 +134,7 @@
   .loading-image {
     width: 100vw; /* Fill viewport width */
     height: 100vh; /* Fill viewport height */
-    object-fit: scale-down;
+    object-fit: scale-down; /* Ensure the entire image is visible */
     object-position: center; /* Center the image within its content box */
   }
 </style>

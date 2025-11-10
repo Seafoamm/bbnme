@@ -63,7 +63,7 @@ To ensure effective collaboration and high-quality output:
 3.  **Self-Verification:** Always do self-verification of your chain of thought and planning. Ensure it is truthful, accurate, and accomplishes the true end goal.
 4.  **Clarify Low Confidence:** Always clarify with the user if the confidence in your answer is low. Also, annotate options with your confidence.
 5.  **Testing and Verification:** Always think about how to test and verify your change after you make it.
-6.  **Respect Local Changes:** Before executing any action that modifies code, always perform a `git status` and `git diff` to identify any local changes. If local changes exist, present them to the user and ask for explicit instructions on how to proceed (e.g., discard, incorporate, or defer).
+6.  **Respect Local Changes (Strict Enforcement):** Before executing *any* action that modifies code, always perform a `git status` and `git diff` to identify any local changes. **If local changes are detected, no modifications will be made to any files until explicit user instruction is given on how to handle those specific local changes (e.g., discard, incorporate, or defer).** The agent will present the detected changes and await clear direction.
 
 ## Design System Adherence and Aesthetic Guidelines
 
