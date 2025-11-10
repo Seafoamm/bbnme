@@ -1,46 +1,42 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import IconButton from './IconButton.svelte';
-  import { getContext } from 'svelte'; // Import getContext
-  import { get } from 'svelte/store'; // Import get for initial value
+  import { getContext } from 'svelte';
+  import { get } from 'svelte/store';
 
-  export let place; // The place object for context
-  export let isHovered = false; // Re-added export let isHovered
+  export let place;
+  export let isHovered = false;
 
   const dispatch = createEventDispatcher();
   let isOpen = false;
 
-  // Retrieve isAuthorizedToWrite store from context
   const isAuthorizedToWriteStore = getContext('isAuthorizedToWrite');
-  // Use auto-subscription for reactivity
   $: isAuthorizedToWrite = $isAuthorizedToWriteStore;
 
   function toggleMenu(event) {
-    event.preventDefault(); // Prevent default action (e.g., anchor tag click)
-    event.stopPropagation(); // Prevent click from closing immediately
+    event.preventDefault();
+    event.stopPropagation();
     isOpen = !isOpen;
   }
 
   function handleEdit(event) {
-    event.preventDefault(); // Prevent default action (e.g., anchor tag click)
+    event.preventDefault();
     dispatch('edit', place);
     isOpen = false;
   }
 
   function handleDelete(event) {
-    event.preventDefault(); // Prevent default action (e.g., anchor tag click)
+    event.preventDefault();
     dispatch('delete', place.id);
     isOpen = false;
   }
 
-  // Close menu when clicking outside
   function handleClickOutside(event) {
     if (isOpen && !event.target.closest('.see-more-menu')) {
       isOpen = false;
     }
   }
 
-  // Close menu if not hovered anymore
   $: if (!isHovered && isOpen) {
     isOpen = false;
   }
@@ -57,7 +53,7 @@
     class="see-more-icon-button"
   />
 
-  {#if isOpen && isAuthorizedToWrite}
+  {#if isAuthorizedToWrite}
     <div class="floating-actions" class:open={isOpen}>
       <IconButton iconSrc="./assets/edit.png" altText="Edit" onClick={handleEdit} size="sm" />
       <IconButton iconSrc="./assets/delete.png" altText="Delete" onClick={handleDelete} size="sm" />
@@ -84,13 +80,13 @@
 
   .floating-actions {
     position: absolute;
-    top: 100%; /* Position below the see-more button */
+    top: calc(100% + var(--spacing-xs)); /* Position below the see-more button with a small gap */
     right: 0;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xs);
     opacity: 0;
-    transform: translateY(-10px); /* Start slightly above */
+    transform: translateY(-5px); /* Start slightly above for a subtle drop */
     pointer-events: none; /* Disable interaction when hidden */
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
     z-index: 10; /* Ensure it's above other content */
