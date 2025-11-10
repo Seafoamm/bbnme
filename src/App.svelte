@@ -7,16 +7,24 @@
   import Card from './lib/components/Card.svelte';
   import './lib/styles/variables.css';
   import { getFunctions, httpsCallable } from 'firebase/functions';
-  import { app } from './lib/firebase'; // Import app from firebase.js
+  import { app } from './lib/firebase';
+  import { onMount } from 'svelte';
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
 
   let isAuthorizedToWrite = false;
   let authCheckComplete = false;
+  let minLoadTimeElapsed = false;
+
+  onMount(() => {
+    setTimeout(() => {
+      minLoadTimeElapsed = true;
+    }, 1000); // Ensure loading screen displays for at least 1 second
+  });
 
   // Reactively check authorization when user store changes
-  $: if (!$authLoading && $user) { // Only run if auth is not loading and user is present
+  $: if (!$authLoading && $user) {
     checkAuthorization()
       .then((result) => {
         isAuthorizedToWrite = result.data.status === 'authorized';
@@ -27,20 +35,21 @@
         isAuthorizedToWrite = false;
         authCheckComplete = true;
       });
-  } else if (!$authLoading && !$user) { // If auth is not loading and no user, then not authorized
+  } else if (!$authLoading && !$user) {
     isAuthorizedToWrite = false;
     authCheckComplete = true;
-  } else { // Still loading auth
+  } else {
     isAuthorizedToWrite = false;
     authCheckComplete = false;
   }
 </script>
 
 <main>
-  {#if $authLoading}
-    <Card>
+  {#if ($authLoading || !minLoadTimeElapsed)}
+    <div class="loading-screen">
+      <img src="/assets/loading_image.png" alt="Loading..." class="loading-image" />
       <p>Loading application...</p>
-    </Card>
+    </div>
   {:else if $user}
     <Navbar {isAuthorizedToWrite} />
     <div class="container">
@@ -78,5 +87,22 @@
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
+  }
+
+  .loading-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    gap: 20px;
+  }
+
+  .loading-image {
+    max-width: 200px; /* Adjust size as needed */
+    height: auto;
   }
 </style>
