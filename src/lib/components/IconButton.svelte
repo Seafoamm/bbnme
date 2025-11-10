@@ -41,10 +41,6 @@
     align-items: center;
   }
 
-  .icon-button:hover {
-    background-color: var(--secondary-color);
-  }
-
   .icon-button img {
     display: block;
     object-fit: contain;

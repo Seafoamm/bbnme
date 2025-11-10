@@ -1,7 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import Button from './Button.svelte';
-  import IconButton from './IconButton.svelte'; // Import IconButton
+  import IconButton from './IconButton.svelte'; // Use IconButton for all icons
 
   export let place; // The place object for context
   export let isAuthorizedToWrite = false; // From context
@@ -44,8 +43,8 @@
 
   {#if isOpen && isAuthorizedToWrite}
     <div class="dropdown-menu">
-      <Button label="Edit" onClick={handleEdit} />
-      <Button label="Delete" onClick={handleDelete} />
+      <IconButton iconSrc="./assets/edit_icon.png" altText="Edit" onClick={handleEdit} size="sm" />
+      <IconButton iconSrc="./assets/delete_icon.png" altText="Delete" onClick={handleDelete} size="sm" />
     </div>
   {/if}
 </div>
@@ -75,7 +74,7 @@
     gap: var(--spacing-xs);
   }
 
-  .dropdown-menu button {
+  .dropdown-menu :global(.icon-button) { /* Target IconButton within dropdown */
     width: 100%;
     justify-content: flex-start;
     padding: var(--spacing-xs) var(--spacing-sm);
@@ -84,7 +83,7 @@
     color: var(--text-color);
   }
 
-  .dropdown-menu button:hover {
+  .dropdown-menu :global(.icon-button:hover) {
     background-color: var(--secondary-color);
     color: var(--accent-color);
   }
