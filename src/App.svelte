@@ -44,10 +44,10 @@
   }
 </script>
 
-<main>
+<main class:fullscreen-main={($authLoading || !minLoadTimeElapsed)}>
   {#if ($authLoading || !minLoadTimeElapsed)}
     <div class="loading-screen">
-      <img src="/assets/loading_image.png" alt="Loading..." class="loading-image" />
+      <img src="./assets/loading_image.png" alt="Loading..." class="loading-image" />
     </div>
   {:else if $user}
     <Navbar {isAuthorizedToWrite} />
@@ -72,11 +72,30 @@
 </main>
 
 <style>
+  :global(html),
+  :global(body) {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrollbars during loading */
+  }
+
   :global(body) {
     font-family: var(--font-family);
     background-color: var(--primary-color);
     color: var(--text-color);
-    margin: 0;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* Ensure main takes at least full height */
+  }
+
+  .fullscreen-main {
+    height: 100%; /* When loading, main should take full height */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
   }
 
   .container {
@@ -86,6 +105,7 @@
     padding: var(--spacing-md);
     max-width: 800px;
     margin: 0 auto;
+    flex-grow: 1; /* Allow container to grow and push footer down if needed */
   }
 
   h1 {
@@ -99,7 +119,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    width: 100%; /* Take full width */
+    height: 100%; /* Take full height of its parent (main) */
     background-color: var(--primary-color);
     color: var(--text-color);
     font-family: var(--font-family);
