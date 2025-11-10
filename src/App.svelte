@@ -8,24 +8,21 @@
   import Card from './lib/components/Card.svelte';
   import Tabs from './lib/components/Tabs.svelte';
   import TabPanel from './lib/components/TabPanel.svelte';
+  import IconButton from './lib/components/IconButton.svelte'; // Import IconButton
   import './lib/styles/variables.css';
   import { getFunctions, httpsCallable } from 'firebase/functions';
   import { app } from './lib/firebase';
-  import { setContext } from 'svelte'; // Removed onMount
+  import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
-  // Removed MIN_LOADING_TIME constant
 
   const isAuthorizedToWriteStore = writable(false);
   let authCheckComplete = false;
-  // Removed minLoadTimeElapsed variable
   let isSideNavOpen = false;
 
   setContext('isAuthorizedToWrite', isAuthorizedToWriteStore);
-
-  // Removed onMount block
 
   $: if (!$authLoading && $user) {
     checkAuthorization()
@@ -54,7 +51,7 @@
 <main class:fullscreen-main={($authLoading || !authCheckComplete)}>
   {#if ($authLoading || !authCheckComplete)}
     <div class="loading-screen">
-      <img src="./assets/loading_image.png" alt="Loading..." class="loading-image" />
+      <IconButton iconSrc="./assets/spinner.png" altText="Loading Spinner" size="lg" class="spinner-icon" />
     </div>
   {:else if $user}
     <Navbar on:toggle={toggleSideNav} />
@@ -84,7 +81,7 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    /* Removed overflow: hidden; */
+    overflow: hidden; /* Prevent scrollbars during loading */
   }
 
   :global(body) {
@@ -97,7 +94,6 @@
     display: flex;
     flex-direction: column;
     min-height: 100%; /* Ensure main takes at least full height */
-    /* Removed position: relative; */
   }
 
   .fullscreen-main {
@@ -111,6 +107,8 @@
     flex-direction: column;
     gap: var(--spacing-md);
     padding: var(--spacing-md);
+    max-width: 800px;
+    margin: 0 auto;
     flex-grow: 1; /* Allow container to grow and push footer down if needed */
   }
 
@@ -121,24 +119,21 @@
   }
 
   .loading-screen {
-    position: fixed; /* Position relative to the viewport */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100vw; /* Take full viewport width */
-    height: 100vh; /* Take full viewport height */
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--primary-color); /* Changed to primary-color for a softer look */
+    background-color: var(--primary-color);
     color: var(--text-color);
     font-family: var(--font-family);
-    z-index: 9999; /* Ensure it's on top of other content */
+    z-index: 9999;
   }
 
-  .loading-image {
-    width: 100vw; /* Fill viewport width */
-    height: 100vh; /* Fill viewport height */
-    object-fit: scale-down; /* THIS SHOULD NOT BE TOUCHED WITHOUT EXPLICIT PERMISSION */
-    object-position: center; /* Center the image within its content box */
+  .spinner-icon {
+    /* No specific styles needed here, IconButton handles its own sizing */
   }
 </style>
