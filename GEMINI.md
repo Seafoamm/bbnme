@@ -44,6 +44,7 @@ Security is paramount, especially for web applications. Always consider potentia
 *   **Implement proper authentication and authorization:** Ensure users are who they say they are (authentication) and that they only have access to resources they are permitted to use (authorization), as demonstrated with Firebase Authentication and Firestore Security Rules).
 *   **Use HTTPS:** Always serve your application over HTTPS to encrypt data in transit.
 *   **Keep dependencies updated:** Regularly update libraries and frameworks to patch known security vulnerabilities.
+*   **Restrict Client-Side API Keys:** For client-side Firebase API keys, always apply API restrictions in the Google Cloud Console to limit usage to authorized domains and specific Firebase services. While the key is publicly exposed in client-side bundles, these restrictions prevent unauthorized use.
 
 ## Codebase Hygiene (Unused Files & Dead Code)
 
