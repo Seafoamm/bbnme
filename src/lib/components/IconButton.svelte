@@ -8,6 +8,7 @@
   export let size = 'md'; // 'sm', 'md', 'lg', 'xl' for different sizes
   export let isSpinning = false; // New prop for spinning animation
   export let isInteractive = true; // New prop for interactivity
+  export let hoverEffect = true; // New prop to control hover effect
 
   let buttonSize;
   $: {
@@ -38,7 +39,7 @@
   }
 </script>
 
-<button class="icon-button" class:interactive={isInteractive} on:click={handleClick}>
+<button class="icon-button" class:interactive={isInteractive} class:hover-effect={hoverEffect} on:click={handleClick}>
   <img src={iconSrc} alt={altText} style="width: {buttonSize}; height: {buttonSize};" class:spinning={isSpinning} />
 </button>
 
@@ -47,7 +48,7 @@
     background: none;
     border: none;
     padding: var(--spacing-xs);
-    transition: var(--transition-ease);
+    transition: all 0.2s ease; /* Adjusted transition for border and shadow */
     border-radius: var(--border-radius);
     display: flex;
     justify-content: center;
@@ -58,8 +59,9 @@
     cursor: pointer;
   }
 
-  .icon-button.interactive:hover {
-    background-color: var(--secondary-color);
+  .icon-button.hover-effect:hover {
+    border: 2px solid var(--accent-color); /* Outline effect */
+    box-shadow: 0 0 8px var(--accent-color); /* Glow effect */
   }
 
   .icon-button img {

@@ -15,7 +15,7 @@
 <nav>
   <HamburgerMenu on:toggle iconSrc="./assets/hambuger_menu.png" altText="Open Menu" />
   <div class="navbar-title">
-    <img src="/assets/icon.png" alt="App Icon" class="app-icon" />
+    <img src="./assets/icon.png" alt="App Icon" class="app-icon" />
     <h1>bb'n'me</h1>
   </div>
   <div class="user-status">
@@ -53,7 +53,7 @@
     font-weight: bold;
   }
   .app-icon {
-    height: var(--font-size-lg); /* Size icon relative to font size */
+    height: var(--font-size-xl); /* Size icon relative to font size */
     width: auto;
   }
   .user-status {

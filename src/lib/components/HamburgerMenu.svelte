@@ -11,11 +11,8 @@
   }
 </script>
 
-<IconButton iconSrc={iconSrc} altText={altText} onClick={toggleMenu} size="md" class="hamburger-icon-button" />
+<IconButton iconSrc={iconSrc} altText={altText} onClick={toggleMenu} size="md" hoverEffect={true} />
 
 <style>
   /* No specific styles needed here as IconButton handles its own styling */
-  .hamburger-icon-button :global(button:hover) {
-    /* background-color: white; */
-  }
 </style>
