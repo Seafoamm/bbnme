@@ -9,6 +9,7 @@
   let isOpen = false;
 
   function toggleMenu(event) {
+    event.preventDefault(); // Prevent default action (e.g., anchor tag click)
     event.stopPropagation(); // Prevent click from closing immediately
     isOpen = !isOpen;
   }
@@ -41,6 +42,7 @@
     altText="See More Options"
     onClick={toggleMenu}
     size="md"
+    class="see-more-icon-button"
   />
 
   {#if isOpen && isAuthorizedToWrite}
@@ -84,21 +86,25 @@
     pointer-events: auto; /* Enable interaction when open */
   }
 
-  .see-more-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: var(--spacing-xs);
-    transition: var(--transition-ease);
-    border-radius: var(--border-radius);
-  }
-
-  .see-more-button:hover {
+  /* Specific hover for the main See More icon button */
+  .see-more-icon-button :global(button:hover) {
     background-color: var(--secondary-color);
   }
 
-  .see-more-button svg {
-    display: block;
+  .dropdown-menu { /* This class is no longer used, but keeping for reference */
+    position: absolute;
+    top: 100%; /* Position below the button */
+    right: 0;
+    background-color: var(--background-color);
+    box-shadow: var(--box-shadow-md);
+    border-radius: var(--border-radius);
+    border: var(--border-width) solid var(--secondary-color);
+    min-width: 120px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-sm);
+    gap: var(--spacing-xs);
   }
 
   .floating-actions :global(.icon-button) {
