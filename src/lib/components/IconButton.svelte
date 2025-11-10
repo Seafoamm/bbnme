@@ -62,6 +62,7 @@
   .icon-button.hover-effect:hover {
     border: 2px solid var(--accent-color); /* Outline effect */
     box-shadow: 0 0 8px var(--accent-color); /* Glow effect */
+    /* Removed transform: translateY(-5px) scale(1.1); */
   }
 
   .icon-button img {
