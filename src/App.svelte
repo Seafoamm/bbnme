@@ -48,7 +48,6 @@
   {#if ($authLoading || !minLoadTimeElapsed)}
     <div class="loading-screen">
       <img src="/assets/loading_image.png" alt="Loading..." class="loading-image" />
-      <p>Loading application...</p>
     </div>
   {:else if $user}
     <Navbar {isAuthorizedToWrite} />
