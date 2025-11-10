@@ -3,13 +3,10 @@
   import { onMount, getContext } from "svelte";
   import { db } from "../firebase";
   import Card from "./Card.svelte";
-  import Button from "./Button.svelte";
+  import SeeMoreMenu from "./SeeMoreMenu.svelte"; // Import SeeMoreMenu
   import EditPlaceForm from "./EditPlaceForm.svelte";
-  import { get } from 'svelte/store'; // Import get for initial value
 
-  // Retrieve isAuthorizedToWrite store from context
   const isAuthorizedToWriteStore = getContext('isAuthorizedToWrite');
-  // Use auto-subscription for reactivity
   $: isAuthorizedToWrite = $isAuthorizedToWriteStore;
 
   let places = [];
@@ -56,17 +53,21 @@
           onCancel={handleEditCancel}
         />
       {:else}
-        <h3><b>{place.name}</b></h3>
+        <div class="place-header">
+          <h3><b>{place.name}</b></h3>
+          {#if isAuthorizedToWrite}
+            <SeeMoreMenu
+              place={place}
+              isAuthorizedToWrite={isAuthorizedToWrite}
+              on:edit={e => editPlace(e.detail)}
+              on:delete={e => deletePlace(e.detail)}
+            />
+          {/if}
+        </div>
         {#if place.image}
           <a href={place.website} target="_blank" rel="noreferrer">
             <img src={place.image} alt={place.name} />
           </a>
-        {/if}
-        {#if isAuthorizedToWrite}
-          <div class="actions">
-            <Button label="Edit" onClick={() => editPlace(place)} />
-            <Button label="Delete" onClick={() => deletePlace(place.id)} />
-          </div>
         {/if}
       {/if}
     </Card>
@@ -78,6 +79,11 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
+  }
+  .place-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   h2 {
     font-size: var(--font-size-lg);
@@ -94,11 +100,6 @@
   img {
     max-width: 100%;
     border-radius: var(--border-radius);
-    margin-top: var(--spacing-sm);
-  }
-  .actions {
-    display: flex;
-    gap: var(--spacing-sm);
     margin-top: var(--spacing-sm);
   }
 </style>
