@@ -131,5 +131,6 @@
     width: 100%; /* Fill parent width */
     height: 100%; /* Fill parent height */
     object-fit: cover; /* Cover the entire area, cropping if necessary */
+    object-position: center; /* Center the image within its content box */
   }
 </style>
