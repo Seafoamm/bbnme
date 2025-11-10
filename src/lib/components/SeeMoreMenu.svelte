@@ -1,13 +1,18 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, getContext } from 'svelte'; // Import getContext
   import IconButton from './IconButton.svelte';
+  import { get } from 'svelte/store'; // Import get for initial value
 
   export let place; // The place object for context
-  export let isAuthorizedToWrite = false; // From context
-  export let isHovered = false; // New prop to control visibility
+  // Removed export let isAuthorizedToWrite = false;
 
   const dispatch = createEventDispatcher();
   let isOpen = false;
+
+  // Retrieve isAuthorizedToWrite store from context
+  const isAuthorizedToWriteStore = getContext('isAuthorizedToWrite');
+  // Use auto-subscription for reactivity
+  $: isAuthorizedToWrite = $isAuthorizedToWriteStore;
 
   function toggleMenu(event) {
     event.preventDefault(); // Prevent default action (e.g., anchor tag click)
@@ -42,7 +47,7 @@
 
 <svelte:window on:click={handleClickOutside} />
 
-<div class="see-more-menu" class:visible={isHovered}> <!-- Control visibility with class -->
+<div class="see-more-menu" class:visible={isHovered}>
   <IconButton
     iconSrc="./assets/see_more.png"
     altText="See More Options"
