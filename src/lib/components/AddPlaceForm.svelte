@@ -1,13 +1,14 @@
 <script>
   import { collection, addDoc } from "firebase/firestore";
   import { db } from "../firebase";
-  import Button from "./Button.svelte"; // Import the Button component
+  import IconButton from "./IconButton.svelte"; // Import IconButton
 
   let name = "";
   let website = "";
   let image = "";
 
-  async function addPlace() {
+  async function addPlace(event) {
+    event.preventDefault(); // Prevent default form submission
     try {
       const docRef = await addDoc(collection(db, "places"), {
         name: name,
@@ -24,12 +25,14 @@
   }
 </script>
 
-<form on:submit|preventDefault={addPlace}>
-  <h2>Add a new place</h2>
+<form on:submit={addPlace}>
+  <div class="header-with-action">
+    <h2>Add a new place</h2>
+    <IconButton iconSrc="./assets/save.png" altText="Save Place" onClick={addPlace} size="sm" />
+  </div>
   <input type="text" bind:value={name} placeholder="Place name" required />
   <input type="url" bind:value={website} placeholder="Website" />
   <input type="url" bind:value={image} placeholder="Image URL" />
-  <Button label="Add Place" type="submit" />
 </form>
 
 <style>
@@ -38,9 +41,16 @@
     flex-direction: column;
     gap: var(--spacing-sm);
   }
+  .header-with-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+    margin-right: auto;
+  }
   h2 {
     font-size: var(--font-size-lg);
-    margin-bottom: var(--spacing-sm);
+    margin: 0; /* Remove default margin to align with icon */
     color: var(--text-color);
     font-weight: bold;
   }

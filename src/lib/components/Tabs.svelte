@@ -3,7 +3,7 @@
   import { writable } from 'svelte/store';
   import IconButton from './IconButton.svelte'; // Import IconButton
 
-  export let activeTab = 1; // 0-indexed active tab, 1 for "Travel Wishlist"
+  export let activeTab = 0; // 0-indexed active tab, 0 for "Travel Wishlist"
 
   const activeTabStore = writable(activeTab);
   setContext('activeTab', activeTabStore);

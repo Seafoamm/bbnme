@@ -48,7 +48,7 @@
 
 <style>
   .sidenav {
-    height: 90vh;
+    height: 97vh;
     width: 0;
     position: fixed;
     z-index: 1000;
