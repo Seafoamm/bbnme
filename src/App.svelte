@@ -141,7 +141,7 @@
   .loading-image {
     width: 100vw; /* Fill viewport width */
     height: 100vh; /* Fill viewport height */
-    object-fit: cover; /* Cover the entire area, cropping if necessary */
+    object-fit: scale-down;
     object-position: center; /* Center the image within its content box */
   }
 </style>

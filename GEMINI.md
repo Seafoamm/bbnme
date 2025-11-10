@@ -41,7 +41,7 @@ Security is paramount, especially for web applications. Always consider potentia
 **Practices:**
 *   **Never expose sensitive data client-side:** Avoid hardcoding API keys, secrets, or personal identifiable information (PII) directly in client-side code or public source repositories. Use environment variables, server-side secrets (like Firebase Secret Manager), or secure backend calls.
 *   **Validate all input:** Always validate and sanitize user input on both the client and server sides to prevent injection attacks (e.g., XSS, SQL Injection).
-*   **Implement proper authentication and authorization:** Ensure users are who they say they are (authentication) and that they only have access to resources they are permitted to use (authorization), as demonstrated with Firebase Authentication and Firestore Security Rules.
+*   **Implement proper authentication and authorization:** Ensure users are who they say they are (authentication) and that they only have access to resources they are permitted to use (authorization), as demonstrated with Firebase Authentication and Firestore Security Rules).
 *   **Use HTTPS:** Always serve your application over HTTPS to encrypt data in transit.
 *   **Keep dependencies updated:** Regularly update libraries and frameworks to patch known security vulnerabilities.
 
@@ -63,6 +63,7 @@ To ensure effective collaboration and high-quality output:
 3.  **Self-Verification:** Always do self-verification of your chain of thought and planning. Ensure it is truthful, accurate, and accomplishes the true end goal.
 4.  **Clarify Low Confidence:** Always clarify with the user if the confidence in your answer is low. Also, annotate options with your confidence.
 5.  **Testing and Verification:** Always think about how to test and verify your change after you make it.
+6.  **Respect Local Changes:** Before executing any action that modifies code, always perform a `git status` and `git diff` to identify any local changes. If local changes exist, present them to the user and ask for explicit instructions on how to proceed (e.g., discard, incorporate, or defer).
 
 ## Design System Adherence and Aesthetic Guidelines
 
