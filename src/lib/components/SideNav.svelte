@@ -27,10 +27,12 @@
         <span class="not-authorized-message">Unauthorized user</span>
       {/if}
     </div>
-    <div class="nav-links">
-      <!-- Add your navigation links here -->
-      <a href="/">Home</a>
-      <!-- Example: <a href="/settings">Settings</a> -->
+    <div class="nav-links-wrapper"> <!-- New wrapper for scrollable content -->
+      <div class="nav-links">
+        <!-- Add your navigation links here -->
+        <a href="/">Home</a>
+        <!-- Example: <a href="/settings">Settings</a> -->
+      </div>
     </div>
     <div class="sidenav-footer">
       <Button label="Sign out" onClick={() => signOut(auth)} />
@@ -52,7 +54,7 @@
     padding-top: var(--spacing-lg);
     box-shadow: var(--box-shadow-md);
     display: flex;
-    flex-direction: column; /* Changed to column */
+    flex-direction: column;
     color: var(--text-color);
   }
 
@@ -85,6 +87,7 @@
     padding: var(--spacing-md) 0;
     border-bottom: var(--border-width) solid var(--secondary-color);
     margin-bottom: var(--spacing-md);
+    flex-shrink: 0; /* Prevent shrinking */
   }
 
   .user-profile img {
@@ -105,13 +108,16 @@
     color: var(--error-color);
   }
 
+  .nav-links-wrapper { /* New wrapper to manage scrolling */
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: var(--spacing-md); /* Add some padding at the bottom */
+  }
+
   .nav-links {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
-    flex-grow: 1; /* Allow nav-links to take available space */
-    overflow-y: auto; /* Make nav-links scrollable */
-    padding-bottom: var(--spacing-md); /* Add some padding at the bottom */
   }
 
   .nav-links a {
@@ -132,7 +138,8 @@
   .sidenav-footer {
     padding: var(--spacing-md) 0;
     border-top: var(--border-width) solid var(--secondary-color);
-    margin-top: auto; /* Push to the bottom */
+    margin-top: auto;
     text-align: center;
+    flex-shrink: 0; /* Prevent shrinking */
   }
 </style>
