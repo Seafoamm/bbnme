@@ -125,6 +125,7 @@
     font-size: var(--font-size-xl);
     text-align: center;
     margin-bottom: var(--spacing-md);
+    font-weight: bold;
   }
 
   .loading-screen {

@@ -81,11 +81,13 @@
     font-size: var(--font-size-lg);
     margin-bottom: var(--spacing-sm);
     color: var(--text-color);
+    font-weight: bold;
   }
   h3 {
     font-size: var(--font-size-md);
     color: var(--text-color);
     margin-bottom: var(--spacing-xs);
+    font-weight: bold;
   }
   img {
     max-width: 100%;

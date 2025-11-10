@@ -47,6 +47,7 @@
     font-size: var(--font-size-lg);
     margin: 0;
     color: var(--text-color);
+    font-weight: bold;
   }
   .user-status {
     width: var(--spacing-lg); /* Match hamburger button width for centering */

@@ -48,6 +48,7 @@
     font-size: var(--font-size-lg);
     margin-bottom: var(--spacing-sm);
     color: var(--text-color);
+    font-weight: bold;
   }
   input {
     padding: var(--spacing-sm);

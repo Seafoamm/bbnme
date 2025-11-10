@@ -27,5 +27,6 @@
   h2 {
     font-size: var(--font-size-lg);
     color: var(--text-color);
+    font-weight: bold;
   }
 </style>
