@@ -73,3 +73,36 @@ To ensure a cohesive and high-quality user experience, all UI development must s
 *   **Design Tokens:** Define and utilize design tokens for typography, color, spacing, and other styling attributes. These should be managed centrally (e.g., in `variables.css`) to ensure consistency and ease of modification. Create new tokens as needed.
 *   **Cohesive Styling:** All components and styles must contribute to a unified aesthetic. The keywords guiding our design are: **"clean girl aesthetic, cozy, cute, comfy"**.
 *   **Reusability:** Design components to be reusable across the application, reducing redundancy and promoting maintainability.
+
+## Project Structure
+
+This project is structured to support a Svelte application with Firebase integration, deployed via GitHub Pages.
+
+*   **`/` (Root Directory):** Contains project-level configuration files, `package.json`, `vite.config.js`, `firebase.json`, and the `GEMINI.md` file.
+    *   `package.json`: Manages project dependencies and scripts (e.g., `dev`, `build`).
+    *   `vite.config.js`: Configuration for Vite, the build tool.
+    *   `firebase.json`: Firebase project configuration, linking to Cloud Functions.
+    *   `.env`: Environment variables for Firebase configuration (local only, not committed).
+    *   `.gitignore`: Specifies files and directories to be ignored by Git.
+
+*   **`.github/`:** Contains GitHub-specific configurations.
+    *   `workflows/`: Stores GitHub Actions workflow definitions (e.g., `deploy.yml` for automated deployment).
+
+*   **`public/`:** Contains static assets that are served directly by the web server.
+    *   `assets/`: Stores images like `icon.png` and `loading_image.png`.
+    *   `fonts/`: Stores custom font files (e.g., `brillant.otf`).
+
+*   **`functions/`:** Contains the Firebase Cloud Functions code.
+    *   `index.js`: The main entry point for Cloud Functions, including the `checkAuthorization` function.
+    *   `package.json`: Manages dependencies specific to the Cloud Functions.
+
+*   **`src/`:** Contains the main Svelte application source code.
+    *   `App.svelte`: The root Svelte component, handling routing and overall layout.
+    *   `main.js`: The entry point for the Svelte application.
+    *   `app.css`: Global CSS styles.
+    *   `lib/`: Contains reusable Svelte components, stores, styles, and Firebase initialization.
+        *   `components/`: Individual UI components (e.g., `Button.svelte`, `Card.svelte`, `Login.svelte`, `Navbar.svelte`, `AddPlaceForm.svelte`, `PlacesList.svelte`, `EditPlaceForm.svelte`).
+        *   `stores/`: Svelte stores for managing application state (e.g., `userStore.js`).
+        *   `styles/`: Global styles and design tokens (e.g., `variables.css`).
+        *   `firebase.js`: Firebase initialization and exports for `db`, `auth`, `googleProvider`, and `app`.
+    *   `assets/`: Contains static assets specific to the Svelte application (e.g., `svelte.svg`).
