@@ -6,10 +6,12 @@
   import AddPlaceForm from './lib/components/AddPlaceForm.svelte';
   import PlacesList from './lib/components/PlacesList.svelte';
   import Card from './lib/components/Card.svelte';
+  import Tabs from './lib/components/Tabs.svelte'; // Import Tabs
+  import TabPanel from './lib/components/TabPanel.svelte'; // Import TabPanel
   import './lib/styles/variables.css';
   import { getFunctions, httpsCallable } from 'firebase/functions';
   import { app } from './lib/firebase';
-  import { onMount, setContext } from 'svelte'; // Import setContext
+  import { onMount, setContext } from 'svelte';
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
@@ -65,18 +67,18 @@
     <Navbar on:toggle={toggleSideNav} />
     <SideNav isOpen={isSideNavOpen} on:close={toggleSideNav} />
     <div class="container">
-      {#if authCheckComplete}
-        {#if isAuthorizedToWrite}
-          <Card>
-            <AddPlaceForm />
-          </Card>
+      <Tabs>
+        {#if authCheckComplete && isAuthorizedToWrite}
+          <TabPanel title="Add Place">
+            <Card>
+              <AddPlaceForm />
+            </Card>
+          </TabPanel>
         {/if}
-      {:else}
-        <Card>
-          <p>Checking authorization...</p>
-        </Card>
-      {/if}
-      <PlacesList />
+        <TabPanel title="Travel Wishlist">
+          <PlacesList />
+        </TabPanel>
+      </Tabs>
     </div>
   {:else}
     <Login />
@@ -125,7 +127,6 @@
     font-size: var(--font-size-xl);
     text-align: center;
     margin-bottom: var(--spacing-md);
-    font-weight: bold;
   }
 
   .loading-screen {
