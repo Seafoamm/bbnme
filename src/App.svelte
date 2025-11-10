@@ -107,8 +107,8 @@
     flex-direction: column;
     gap: var(--spacing-md);
     padding: var(--spacing-md);
-    max-width: 800px;
-    margin: 0 auto;
+    /* Removed max-width: 800px; */
+    /* Removed margin: 0 auto; */
     flex-grow: 1; /* Allow container to grow and push footer down if needed */
   }
 
@@ -133,7 +133,14 @@
     z-index: 9999;
   }
 
-  /* Removed .spinner-icon and @keyframes spin from here */
+  .spinner-icon {
+    animation: spin 1s linear infinite; /* Spinning animation */
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
   .loading-image {
     width: 100vw; /* Fill viewport width */
