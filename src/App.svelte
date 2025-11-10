@@ -6,32 +6,20 @@
   import AddPlaceForm from './lib/components/AddPlaceForm.svelte';
   import PlacesList from './lib/components/PlacesList.svelte';
   import Card from './lib/components/Card.svelte';
-  import Tabs from './lib/components/Tabs.svelte'; // Import Tabs
-  import TabPanel from './lib/components/TabPanel.svelte'; // Import TabPanel
   import './lib/styles/variables.css';
   import { getFunctions, httpsCallable } from 'firebase/functions';
   import { app } from './lib/firebase';
-  import { onMount, setContext } from 'svelte';
+  // Removed onMount import as setTimeout is no longer needed
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
-  const MIN_LOADING_TIME = 1000;
+  // Removed MIN_LOADING_TIME constant
 
   let isAuthorizedToWrite = false;
   let authCheckComplete = false;
-  let minLoadTimeElapsed = false;
-  let isSideNavOpen = false;
+  // Removed minLoadTimeElapsed variable
 
-  // Provide isAuthorizedToWrite via context
-  setContext('isAuthorizedToWrite', {
-    get: () => isAuthorizedToWrite,
-  });
-
-  onMount(() => {
-    setTimeout(() => {
-      minLoadTimeElapsed = true;
-    }, MIN_LOADING_TIME);
-  });
+  // Removed onMount block
 
   // Reactively check authorization when user store changes
   $: if (!$authLoading && $user) {
@@ -58,27 +46,26 @@
   }
 </script>
 
-<main class:fullscreen-main={($authLoading || !minLoadTimeElapsed)}>
-  {#if ($authLoading || !minLoadTimeElapsed)}
+<main class:fullscreen-main={($authLoading || !authCheckComplete)}> <!-- Adjusted condition -->
+  {#if ($authLoading || !authCheckComplete)} <!-- Adjusted condition -->
     <div class="loading-screen">
       <img src="./assets/loading_image.png" alt="Loading..." class="loading-image" />
     </div>
   {:else if $user}
-    <Navbar on:toggle={toggleSideNav} />
-    <SideNav isOpen={isSideNavOpen} on:close={toggleSideNav} />
+    <Navbar {isAuthorizedToWrite} />
     <div class="container">
-      <Tabs>
-        {#if authCheckComplete && isAuthorizedToWrite}
-          <TabPanel title="Add Place">
-            <Card>
-              <AddPlaceForm />
-            </Card>
-          </TabPanel>
+      {#if authCheckComplete}
+        {#if isAuthorizedToWrite}
+          <Card>
+            <AddPlaceForm />
+          </Card>
         {/if}
-        <TabPanel title="Travel Wishlist">
-          <PlacesList />
-        </TabPanel>
-      </Tabs>
+      {:else}
+        <Card>
+          <p>Checking authorization...</p>
+        </Card>
+      {/if}
+      <PlacesList {isAuthorizedToWrite} />
     </div>
   {:else}
     <Login />
@@ -91,7 +78,7 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    /* Removed overflow: hidden; */
+    overflow: hidden; /* Prevent scrollbars during loading */
   }
 
   :global(body) {
@@ -138,17 +125,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* Changed to primary-color for a softer look */
     color: var(--text-color);
     font-family: var(--font-family);
     z-index: 9999; /* Ensure it's on top of other content */
-    background-color: var(--secondary-color);
   }
 
   .loading-image {
     width: 100vw; /* Fill viewport width */
     height: 100vh; /* Fill viewport height */
-    object-fit: scale-down; /* Cover the entire area, cropping if necessary */
+    object-fit: cover; /* Cover the entire area, cropping if necessary */
     object-position: center; /* Center the image within its content box */
   }
 </style>
