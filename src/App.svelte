@@ -14,6 +14,7 @@
   import { app } from './lib/firebase';
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
+  import { fade } from 'svelte/transition'; // Import fade transition
 
   const functions = getFunctions(app);
   const checkAuthorization = httpsCallable(functions, 'checkAuthorization');
@@ -32,7 +33,7 @@
     setTimeout(() => {
       showLoadingScreen = false;
       fadeOutComplete = true;
-    }, 500);
+    }, 500); // Match this duration to the CSS transition duration
   }
 
   async function performAuthorizationCheck() {
@@ -62,29 +63,36 @@
   }
 </script>
 
-<main class:fullscreen-main={showLoadingScreen}>
+<main>
+  <!-- Main content, always rendered but its visibility controlled -->
+  <div class="main-content-wrapper" class:visible={!showLoadingScreen}>
+    {#if $user}
+      <Navbar on:toggle={toggleSideNav} />
+      <SideNav isOpen={isSideNavOpen} on:close={toggleSideNav} />
+      <div class="container">
+        <Tabs>
+          {#if authCheckComplete && $isAuthorizedToWriteStore}
+            <TabPanel title="Add Place">
+              <Card>
+                <AddPlaceForm />
+              </Card>
+            </TabPanel>
+          {/if}
+          <TabPanel title="Travel Wishlist">
+            <PlacesList />
+          </TabPanel>
+        </Tabs>
+      </div>
+    {:else}
+      <Login />
+    {/if}
+  </div>
+
+  <!-- Loading screen, rendered on top -->
   {#if showLoadingScreen}
     <div class="loading-screen" class:fade-out={loadingFinished}>
       <IconButton iconSrc="./assets/spinner.png" altText="Loading Spinner" size="xl" isSpinning={true} isInteractive={false} />
     </div>
-  {:else if $user}
-    <Navbar on:toggle={toggleSideNav} />
-    <div class="container" class:fade-in={!showLoadingScreen}>
-      <Tabs>
-        {#if authCheckComplete && $isAuthorizedToWriteStore}
-          <TabPanel title="Add Place">
-            <Card>
-              <AddPlaceForm />
-            </Card>
-          </TabPanel>
-        {/if}
-        <TabPanel title="Travel Wishlist">
-          <PlacesList />
-        </TabPanel>
-      </Tabs>
-    </div>
-  {:else}
-    <Login />
   {/if}
 </main>
 
@@ -107,12 +115,25 @@
     display: flex;
     flex-direction: column;
     min-height: 100%; /* Ensure main takes at least full height */
+    position: relative; /* For positioning main-content-wrapper */
   }
 
-  .fullscreen-main {
-    height: 100%; /* When loading, main should take full height */
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
+  .main-content-wrapper {
+    position: absolute; /* Position over the main content */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Start hidden */
+    pointer-events: none; /* Not interactive when hidden */
+    transition: opacity 0.5s ease-in; /* Fade in transition */
+    display: flex; /* Ensure it takes up space for its children */
+    flex-direction: column;
+  }
+
+  .main-content-wrapper.visible {
+    opacity: 1; /* Fade in when visible */
+    pointer-events: auto; /* Enable interaction */
   }
 
   .container {
@@ -123,12 +144,6 @@
     /* Removed max-width: 800px; */
     /* Removed margin: 0 auto; */
     flex-grow: 1; /* Allow container to grow and push footer down if needed */
-    opacity: 0; /* Start hidden */
-    transition: opacity 0.5s ease-in; /* Fade in transition */
-  }
-
-  .container.fade-in {
-    opacity: 1; /* Fade in when class is applied */
   }
 
   h1 {

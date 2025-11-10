@@ -1,6 +1,7 @@
 <script>
   import { getContext } from 'svelte';
   import { get } from 'svelte/store';
+  import { fade } from 'svelte/transition'; // Re-import fade transition
 
   export let title; // Title of this tab panel
 
@@ -17,7 +18,7 @@
 </script>
 
 {#if isActive}
-  <div class="tab-panel">
+  <div class="tab-panel" transition:fade={{ duration: 200 }}> <!-- Re-apply fade transition -->
     <slot />
   </div>
 {/if}

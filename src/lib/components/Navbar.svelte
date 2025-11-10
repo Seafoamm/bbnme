@@ -2,22 +2,18 @@
   import HamburgerMenu from "./HamburgerMenu.svelte";
   import { createEventDispatcher, getContext } from 'svelte';
   import { user } from "../stores/userStore";
-  import { get } from 'svelte/store'; // Import get for initial value
-
-  const dispatch = createEventDispatcher();
+  import { get } from 'svelte/store';
 
   // Retrieve isAuthorizedToWrite store from context
   const isAuthorizedToWriteStore = getContext('isAuthorizedToWrite');
   // Use auto-subscription for reactivity
   $: isAuthorizedToWrite = $isAuthorizedToWriteStore;
 
-  function handleToggle() {
-    dispatch('toggle');
-  }
+  // Removed handleToggle function
 </script>
 
 <nav>
-  <HamburgerMenu on:toggle={handleToggle} />
+  <HamburgerMenu on:toggle /> <!-- Pass on:toggle directly -->
   <div class="navbar-title">
     <h1>bb'n'me</h1>
   </div>

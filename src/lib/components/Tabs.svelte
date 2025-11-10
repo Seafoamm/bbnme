@@ -1,6 +1,7 @@
 <script>
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
+  import { fade } from 'svelte/transition'; // Import fade transition
 
   export let activeTab = 1; // 0-indexed active tab, 1 for "Travel Wishlist"
 
@@ -10,11 +11,10 @@
   let tabs = [];
   let tabTitles = [];
 
-  // This function will be called by TabPanel children to register themselves
   function registerTab(title) {
     tabs = [...tabs, title];
     tabTitles = [...tabTitles, title];
-    return tabs.length - 1; // Return the index of the registered tab
+    return tabs.length - 1;
   }
 
   setContext('registerTab', registerTab);
@@ -37,7 +37,7 @@
       </button>
     {/each}
   </div>
-  <div class="tab-content">
+  <div class="tab-content-wrapper"> <!-- Wrapper for absolute positioning -->
     <slot />
   </div>
 </div>
@@ -82,7 +82,17 @@
     color: var(--accent-color);
   }
 
-  .tab-content {
+  .tab-content-wrapper {
+    position: relative; /* Establish positioning context for absolute children */
+    min-height: 200px; /* Prevent collapse during transitions, adjust as needed */
+  }
+
+  /* Target TabPanel components within the slot */
+  .tab-content-wrapper :global(.tab-panel) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     padding: var(--spacing-sm);
     background-color: var(--background-color);
     border-radius: var(--border-radius);
