@@ -4,6 +4,7 @@
 
   export let place; // The place object for context
   export let isAuthorizedToWrite = false; // From context
+  export let isHovered = false; // New prop to control visibility
 
   const dispatch = createEventDispatcher();
   let isOpen = false;
@@ -32,11 +33,16 @@
       isOpen = false;
     }
   }
+
+  // Close menu if not hovered anymore
+  $: if (!isHovered && isOpen) {
+    isOpen = false;
+  }
 </script>
 
 <svelte:window on:click={handleClickOutside} />
 
-<div class="see-more-menu">
+<div class="see-more-menu" class:visible={isHovered}> <!-- Control visibility with class -->
   <IconButton
     iconSrc="./assets/see_more.png"
     altText="See More Options"
@@ -60,6 +66,14 @@
     right: var(--spacing-xs);
     display: inline-block;
     z-index: 5;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s ease-out; /* Smooth transition */
+    pointer-events: none; /* Disable interaction when hidden */
+  }
+
+  .see-more-menu.visible {
+    opacity: 1; /* Visible when hovered */
+    pointer-events: auto; /* Enable interaction when visible */
   }
 
   .floating-actions {
@@ -89,22 +103,6 @@
   /* Specific hover for the main See More icon button */
   .see-more-icon-button :global(button:hover) {
     background-color: var(--secondary-color);
-  }
-
-  .dropdown-menu { /* This class is no longer used, but keeping for reference */
-    position: absolute;
-    top: 100%; /* Position below the button */
-    right: 0;
-    background-color: var(--background-color);
-    box-shadow: var(--box-shadow-md);
-    border-radius: var(--border-radius);
-    border: var(--border-width) solid var(--secondary-color);
-    min-width: 120px;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    padding: var(--spacing-sm);
-    gap: var(--spacing-xs);
   }
 
   .floating-actions :global(.icon-button) {
