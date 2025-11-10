@@ -42,17 +42,25 @@
   form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--spacing-sm);
+  }
+  h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
   }
   input {
-    padding: 10px;
+    padding: var(--spacing-sm);
     border-radius: var(--border-radius);
-    border: 1px solid var(--secondary-color);
+    border: var(--border-width) solid var(--secondary-color);
     font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    color: var(--text-color);
+    background-color: var(--background-color);
   }
   .actions {
     display: flex;
-    gap: 10px;
-    margin-top: 10px;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
   }
 </style>

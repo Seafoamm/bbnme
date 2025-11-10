@@ -83,10 +83,16 @@
   .container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 20px;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
     max-width: 800px;
     margin: 0 auto;
+  }
+
+  h1 {
+    font-size: var(--font-size-xl);
+    text-align: center;
+    margin-bottom: var(--spacing-md);
   }
 
   .loading-screen {
@@ -98,11 +104,11 @@
     background-color: var(--primary-color);
     color: var(--text-color);
     font-family: var(--font-family);
-    gap: 20px;
+    gap: var(--spacing-md);
   }
 
   .loading-image {
-    max-width: 200px; /* Adjust size as needed */
+    max-width: 150px; /* Adjusted for consistency */
     height: auto;
   }
 </style>

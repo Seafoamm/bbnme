@@ -6,8 +6,8 @@
   .card {
     background-color: var(--background-color);
     border-radius: var(--border-radius);
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--secondary-color);
+    padding: var(--spacing-md);
+    box-shadow: var(--box-shadow-md);
+    border: var(--border-width) solid var(--secondary-color);
   }
 </style>

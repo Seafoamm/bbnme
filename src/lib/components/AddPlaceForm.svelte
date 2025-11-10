@@ -1,6 +1,7 @@
 <script>
   import { collection, addDoc } from "firebase/firestore";
   import { db } from "../firebase";
+  import Button from "./Button.svelte"; // Import the Button component
 
   let name = "";
   let website = "";
@@ -28,32 +29,27 @@
   <input type="text" bind:value={name} placeholder="Place name" required />
   <input type="url" bind:value={website} placeholder="Website" />
   <input type="url" bind:value={image} placeholder="Image URL" />
-  <button type="submit">Add Place</button>
+  <Button label="Add Place" type="submit" />
 </form>
 
 <style>
   form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--spacing-sm);
+  }
+  h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
   }
   input {
-    padding: 10px;
+    padding: var(--spacing-sm);
     border-radius: var(--border-radius);
-    border: 1px solid var(--secondary-color);
+    border: var(--border-width) solid var(--secondary-color);
     font-family: var(--font-family);
-  }
-  button {
-    font-family: var(--font-family);
-    background-color: var(--primary-color);
+    font-size: var(--font-size-md);
     color: var(--text-color);
-    border: 1px solid var(--accent-color);
-    border-radius: var(--border-radius);
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  button:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--background-color);
   }
 </style>

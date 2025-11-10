@@ -53,7 +53,7 @@
         />
       {:else}
         <h3><b>{place.name}</b></h3>
-        {#if place.image}
+        {#if place.website}
           <a href={place.website} target="_blank" rel="noreferrer">
             <img src={place.image} alt={place.name} />
           </a>
@@ -73,15 +73,26 @@
   div {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--spacing-md);
+  }
+  h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
+  }
+  h3 {
+    font-size: var(--font-size-md);
+    color: var(--text-color);
+    margin-bottom: var(--spacing-xs);
   }
   img {
     max-width: 100%;
     border-radius: var(--border-radius);
+    margin-top: var(--spacing-sm);
   }
   .actions {
     display: flex;
-    gap: 10px;
-    margin-top: 10px;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
   }
 </style>

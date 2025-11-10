@@ -12,11 +12,12 @@
     font-family: var(--font-family);
     background-color: var(--primary-color);
     color: var(--text-color);
-    border: 1px solid var(--accent-color);
+    border: var(--border-width) solid var(--accent-color);
     border-radius: var(--border-radius);
-    padding: 10px 20px;
+    padding: var(--spacing-sm) var(--spacing-md);
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: var(--transition-ease);
+    font-size: var(--font-size-md);
   }
 
   button:hover {

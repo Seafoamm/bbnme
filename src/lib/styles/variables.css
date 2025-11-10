@@ -4,11 +4,36 @@
 }
 
 :root {
-  --primary-color: #FDF8F5;
-  --secondary-color: #E8DED2;
-  --accent-color: #D4BFAA;
-  --text-color: #5D534A;
-  --background-color: #FFFFFF;
+  /* Colors */
+  --primary-color: #FDF8F5; /* Very light, almost white, pink */
+  --secondary-color: #E8DED2; /* Soft, muted beige */
+  --accent-color: #D4BFAA; /* Slightly darker, more saturated beige */
+  --text-color: #5D534A; /* Dark, warm brown */
+  --background-color: #FFFFFF; /* White */
+  --error-color: #CC0000; /* Subtle red for warnings/errors */
+
+  /* Typography */
   --font-family: 'Brilliant', sans-serif;
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-md: 1rem;    /* 16px */
+  --font-size-lg: 1.25rem;  /* 20px */
+  --font-size-xl: 2rem;    /* 32px */
+
+  /* Spacing */
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 20px;
+  --spacing-lg: 30px;
+  --spacing-xl: 40px;
+
+  /* Borders */
   --border-radius: 15px;
+  --border-width: 1px;
+
+  /* Shadows */
+  --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --box-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --transition-ease: all 0.3s ease;
 }

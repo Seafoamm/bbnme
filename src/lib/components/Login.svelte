@@ -19,6 +19,13 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    gap: 20px;
+    gap: var(--spacing-md);
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+  }
+  h2 {
+    font-size: var(--font-size-lg);
+    color: var(--text-color);
   }
 </style>

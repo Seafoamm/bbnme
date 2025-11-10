@@ -27,29 +27,29 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: var(--spacing-sm) var(--spacing-md);
     background-color: var(--secondary-color);
     color: var(--text-color);
-    border-bottom: 1px solid var(--accent-color);
+    border-bottom: var(--border-width) solid var(--accent-color);
   }
   .user-section {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: var(--spacing-sm);
   }
   .user-info {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--spacing-sm);
   }
   img {
-    width: 40px;
-    height: 40px;
+    width: var(--spacing-xl);
+    height: var(--spacing-xl);
     border-radius: 50%;
     object-fit: cover;
   }
   .not-authorized-message {
-    font-size: 0.8em;
-    color: #cc0000; /* A subtle red for warning */
+    font-size: var(--font-size-sm);
+    color: var(--error-color);
   }
 </style>
