@@ -1,10 +1,11 @@
 <script>
-  import { createEventDispatcher, getContext } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
   import IconButton from './IconButton.svelte';
+  import { getContext } from 'svelte'; // Import getContext
   import { get } from 'svelte/store'; // Import get for initial value
 
   export let place; // The place object for context
-  // Removed export let isAuthorizedToWrite = false;
+  export let isHovered = false; // Re-added export let isHovered
 
   const dispatch = createEventDispatcher();
   let isOpen = false;
