@@ -2,7 +2,7 @@
   import { signOut } from "firebase/auth";
   import { auth } from "../firebase";
   import { user } from "../stores/userStore";
-  import IconButton from "./IconButton.svelte"; // Use IconButton
+  import IconButton from "./IconButton.svelte";
   import { createEventDispatcher, getContext } from 'svelte';
   import { get } from 'svelte/store';
 
@@ -126,16 +126,16 @@
     gap: var(--spacing-sm);
   }
 
-  .nav-links :global(.icon-button) { /* Target IconButton within nav-links */
-    justify-content: flex-start; /* Align icon and text to start */
+  .nav-links :global(.icon-button) {
+    justify-content: center; /* Center the icon horizontally */
     padding: var(--spacing-sm);
     border-radius: var(--border-radius);
   }
 
   .nav-links :global(.icon-button img) {
-    width: var(--font-size-lg); /* Adjust icon size */
+    width: var(--font-size-lg);
     height: var(--font-size-lg);
-    margin-right: var(--spacing-sm);
+    /* Removed margin-right: var(--spacing-sm); */
   }
 
   .nav-links :global(.icon-button:hover) {

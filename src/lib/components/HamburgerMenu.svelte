@@ -1,9 +1,9 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import IconButton from './IconButton.svelte'; // Import IconButton
+  import IconButton from './IconButton.svelte';
   const dispatch = createEventDispatcher();
 
-  export let iconSrc = './assets/hambuger_menu.png'; // Default icon source
+  export let iconSrc = './assets/hambuger_menu.png';
   export let altText = 'Open Menu';
 
   function toggleMenu() {
@@ -11,8 +11,11 @@
   }
 </script>
 
-<IconButton iconSrc={iconSrc} altText={altText} onClick={toggleMenu} size="md" />
+<IconButton iconSrc={iconSrc} altText={altText} onClick={toggleMenu} size="md" class="hamburger-icon-button" />
 
 <style>
   /* No specific styles needed here as IconButton handles its own styling */
+  .hamburger-icon-button :global(button:hover) {
+    background-color: var(--secondary-color);
+  }
 </style>
