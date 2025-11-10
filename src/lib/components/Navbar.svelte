@@ -1,25 +1,20 @@
 <script>
-  import { signOut } from "firebase/auth";
-  import { auth } from "../firebase";
-  import { user } from "../stores/userStore";
-  import Button from "./Button.svelte";
+  import HamburgerMenu from "./HamburgerMenu.svelte";
+  import { createEventDispatcher } from 'svelte';
 
-  export let isAuthorizedToWrite;
+  const dispatch = createEventDispatcher();
+
+  function handleToggle() {
+    dispatch('toggle');
+  }
 </script>
 
 <nav>
-  {#if $user}
-    <div class="user-section">
-      <div class="user-info">
-        <img src={$user.photoURL} alt="Profile" />
-        <span>{$user.displayName}</span>
-      </div>
-      {#if !isAuthorizedToWrite}
-        <span class="not-authorized-message">Unauthorized user</span>
-      {/if}
-    </div>
-    <Button label="Sign out" onClick={() => signOut(auth)} />
-  {/if}
+  <HamburgerMenu on:toggle={handleToggle} />
+  <div class="navbar-title">
+    <h1>bb'n'me</h1>
+  </div>
+  <div class="placeholder"></div> <!-- To balance the flex layout -->
 </nav>
 
 <style>
@@ -31,25 +26,21 @@
     background-color: var(--secondary-color);
     color: var(--text-color);
     border-bottom: var(--border-width) solid var(--accent-color);
+    position: sticky;
+    top: 0;
+    z-index: 999;
   }
-  .user-section {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
+  .navbar-title {
+    flex-grow: 1;
+    text-align: center;
   }
-  .user-info {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
+  .navbar-title h1 {
+    font-size: var(--font-size-lg);
+    margin: 0;
+    color: var(--text-color);
   }
-  img {
-    width: var(--spacing-xl);
-    height: var(--spacing-xl);
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  .not-authorized-message {
-    font-size: var(--font-size-sm);
-    color: var(--error-color);
+  .placeholder {
+    width: var(--spacing-lg); /* Match hamburger button width for centering */
+    height: var(--spacing-lg);
   }
 </style>
