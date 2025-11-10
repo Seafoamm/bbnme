@@ -21,25 +21,20 @@
   const isAuthorizedToWriteStore = writable(false);
   let authCheckComplete = false;
   let isSideNavOpen = false;
-  let showLoadingScreen = true; // New state to control rendering of loading screen
-  let fadeOutComplete = false; // New state to track fade out completion
+  let showLoadingScreen = true;
+  let fadeOutComplete = false;
 
   setContext('isAuthorizedToWrite', isAuthorizedToWriteStore);
 
-  // Reactive block to determine when loading is truly finished
   $: loadingFinished = !$authLoading && authCheckComplete;
 
-  // Trigger fade out when loading is finished
   $: if (loadingFinished && !fadeOutComplete) {
-    // Apply fade-out class
-    // Wait for transition to complete before removing from DOM
     setTimeout(() => {
       showLoadingScreen = false;
       fadeOutComplete = true;
-    }, 500); // Match this duration to the CSS transition duration
+    }, 500);
   }
 
-  // Function to perform authorization check
   async function performAuthorizationCheck() {
     try {
       const result = await checkAuthorization();
@@ -52,7 +47,6 @@
     }
   }
 
-  // Reactive block to trigger authorization check
   $: if (!$authLoading && $user) {
     performAuthorizationCheck();
   } else if (!$authLoading && !$user) {
@@ -75,8 +69,7 @@
     </div>
   {:else if $user}
     <Navbar on:toggle={toggleSideNav} />
-    <SideNav isOpen={isSideNavOpen} on:close={toggleSideNav} />
-    <div class="container">
+    <div class="container" class:fade-in={!showLoadingScreen}>
       <Tabs>
         {#if authCheckComplete && $isAuthorizedToWriteStore}
           <TabPanel title="Add Place">
@@ -130,6 +123,12 @@
     /* Removed max-width: 800px; */
     /* Removed margin: 0 auto; */
     flex-grow: 1; /* Allow container to grow and push footer down if needed */
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.5s ease-in; /* Fade in transition */
+  }
+
+  .container.fade-in {
+    opacity: 1; /* Fade in when class is applied */
   }
 
   h1 {
