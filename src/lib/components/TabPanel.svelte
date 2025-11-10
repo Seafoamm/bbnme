@@ -1,6 +1,6 @@
 <script>
+  import { getContext } from 'svelte';
   import { get } from 'svelte/store';
-  import { get }tore } from 'svelte/store';
 
   export let title; // Title of this tab panel
 
