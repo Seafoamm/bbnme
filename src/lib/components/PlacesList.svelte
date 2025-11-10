@@ -57,17 +57,19 @@
           <h3><b>{place.name}</b></h3>
         </div>
         {#if place.image}
-          <a href={place.website} target="_blank" rel="noreferrer" class="image-wrapper">
-            <img src={place.image} alt={place.name} />
-            {#if isAuthorizedToWrite}
-              <SeeMoreMenu
-                place={place}
-                isAuthorizedToWrite={isAuthorizedToWrite}
-                on:edit={e => editPlace(e.detail)}
-                on:delete={e => deletePlace(e.detail)}
-              />
-            {/if}
-          </a>
+          <div class="image-container"> <!-- New container for centering -->
+            <a href={place.website} target="_blank" rel="noreferrer" class="image-wrapper">
+              <img src={place.image} alt={place.name} />
+              {#if isAuthorizedToWrite}
+                <SeeMoreMenu
+                  place={place}
+                  isAuthorizedToWrite={isAuthorizedToWrite}
+                  on:edit={e => editPlace(e.detail)}
+                  on:delete={e => deletePlace(e.detail)}
+                />
+              {/if}
+            </a>
+          </div>
         {/if}
       {/if}
     </Card>
@@ -97,9 +99,12 @@
     margin-bottom: var(--spacing-xs);
     font-weight: bold;
   }
+  .image-container {
+    text-align: center; /* Center inline-block children */
+  }
   .image-wrapper {
     position: relative; /* Make the image wrapper relative for absolute positioning of menu */
-    display: block; /* Ensure it takes up space */
+    display: inline-block; /* Ensure it only takes up the width of its content */
     line-height: 0; /* Remove extra space below image */
   }
   img {
