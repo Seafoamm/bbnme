@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher, getContext } from 'svelte'; // Import getContext
+  import { createEventDispatcher, getContext } from 'svelte';
   import IconButton from './IconButton.svelte';
   import { get } from 'svelte/store'; // Import get for initial value
 
